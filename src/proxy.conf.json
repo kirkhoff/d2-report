@@ -1,0 +1,6 @@
+{
+  "/Platform": {
+    "target": "https://www.bungie.net",
+    "changeOrigin": true
+  }
+}
