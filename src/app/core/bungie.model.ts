@@ -6,6 +6,7 @@ export interface BungieUser {
   membershipType: number;
   membershipId: string;
   displayName: string;
+  iconPath: string;
 }
 
 export interface BungieProfile {
