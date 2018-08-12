@@ -1,27 +1,20 @@
-import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import {anything, instance, mock, when} from 'ts-mockito';
+import {BungieService} from './core/bungie.service';
+import {CrucibleService} from './crucible/crucible.service';
+import {of} from 'rxjs';
+
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
-  it(`should have as title 'app'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app');
-  }));
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to d2-report!');
-  }));
+  let component: AppComponent;
+  const bungieServiceMock = mock(BungieService);
+  const crucibleServiceMock = mock(CrucibleService);
+
+  beforeEach(() => {
+    when(bungieServiceMock.searchUser(anything())).thenReturn(of([]));
+    component = new AppComponent(instance(bungieServiceMock), instance(crucibleServiceMock));
+  });
+
+  test('should instantiate', () => {
+    expect(component).toBeTruthy();
+  });
 });
