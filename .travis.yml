@@ -11,6 +11,6 @@ deploy:
     secure: VUJHwD12WPlfgZ+Ixb0lV0euEr0ff0wHEM+IXePIPq+BbwUavJS8gKl3OLK/cCeEnRs+Tas6to8EkxeuiOgpujVBLbQ3TR7BXns1Vj0HSMPaolhABYBZWfpA2QOY61hna/yy3TfLGKLG87ePJld7HidjBuseAZYslBMwhJLz2LVUDY1KxUjfhDJWru7giVFTwGahl2C7Zo8MU065tNwtIGGwO/Rudhsf6zVAlXsTQ5wl46h+i1Eha7DzjxVpiI0PiGVnLvLQ9HxU//TfBV0hBKJ8tBtGfz+3wC5r2adkPxE6n/4GyWgRH8vASbuGqo3ltjC47LHNZe9NyGBmCwiPKLVVA/uq56C3+68nfbP927uNrWIyg6TsD2RfHVwcCVCtJoLcHvG6/Poj68JP0iX/1a+wJ5XCb8U4jc3BeVuoMZm1wQCRKFhXCHfbs9j++DtL98gJ6weDk3xatWr4GRS8i+pLTibq140WjmQMz9O0sOCceEf2ebdZo6y28o28FrpomWoQPh+JKdLF7Pdya/nHoM+V4CvPU8E+HRx5R6hxQJBjeFD9t5UjC+E5tjf7DE2NvPv/sujCAv8aGntydnrOTtD74BW7yQKSYfQVUPlnYAo2nwEWoO4T0HAJ/gxdWvNfcqDMMObQ6kj6rQR/C14+hBz4W608+oet7TLtVxkVifI=
   bucket: d2.report
   skip_cleanup: true
-  local_dir: dist
+  local_dir: dist/d2-report
   acl: public_read
   cache_control: max-age=21600
