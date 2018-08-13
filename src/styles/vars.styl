@@ -1,0 +1,68 @@
+clr-grey = #4a4e4d
+clr-primary = #0e9aa7
+clr-primary-accent = #3da4ab
+clr-secondary = #f6cd61
+clr-tertiary = #fe8a71
+clr-white = #fffae5
+clr-black = #0a191e
+
+clr-link = clr-tertiary
+
+// Responsive
+doc-max-width = 1224px
+phone-max-width = 767px
+tablet-min-width = 768px
+tablet-max-width = 983px
+mobile-gutter = 5px
+max-grid-width = 1230px
+gutter-width = 30px
+
+transition-time = .3s
+
+cursive-font()
+  font-family 'Pacifico', cursive
+
+sans-font()
+  font-family 'Josefin Sans', sans-serif
+
+serif-font()
+  font-family 'Josefin Slab', serif
+
+text-link(color = clr-link)
+  color color
+  font-weight 500
+  text-decoration none
+  &:hover
+    text-decoration underline
+  coaching-icon
+    margin-left 2px
+
+reset-button()
+  background transparent
+  border 0
+  font-size inherit
+  padding 0
+
+phone-only()
+  @media (max-width: phone-max-width)
+    {block}
+
+tablet-only()
+  @media (min-width: tablet-min-width) and (max-width: tablet-max-width)
+    {block}
+
+mobile-only()
+  @media (max-width: tablet-max-width)
+    {block}
+
+desktop-only()
+  @media (min-width: tablet-max-width + 1)
+    {block}
+
+max-doc-width()
+  @media (max-width: doc-max-width - 1)
+    {block}
+
+not-phone()
+  @media (min-width: phone-max-width + 1)
+    {block}

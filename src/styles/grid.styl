@@ -1,0 +1,35 @@
+@require '~kouto-swiss/index.styl'
+@require 'vars.styl'
+
+gutter-padding()
+  padding-left (gutter-width/2)
+  padding-right (gutter-width/2)
+
+grid()
+  display flex
+
+grid-cell()
+  gutter-padding()
+  flex 1
+
+container(container-width = max-grid-width)
+  gutter-padding()
+  box-sizing border-box
+  margin-left auto
+  margin-right auto
+  max-width container-width
+  width 100%
+
+col(n, gutters = true)
+  if gutters
+    gutter-padding()
+  width percent(n, 12)
+
+generate-grid()
+  for n in (1..12)
+    .col-{n}
+      col(n, false)
+
+full-width()
+  margin-left 'calc(-100vw / 2 + %s / 2)' % (max-grid-width - gutter-width)
+  margin-right 'calc(-100vw / 2 + %s / 2)' % (max-grid-width - gutter-width)

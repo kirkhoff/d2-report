@@ -6,10 +6,26 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material.module';
+import {HeaderComponent} from './header/header.component';
+import {RouterModule, Routes} from '@angular/router';
+import {CrucibleComponent} from './crucible/crucible.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: CrucibleComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/'
+  }
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CrucibleComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -17,7 +33,8 @@ import {MaterialModule} from './material.module';
     FormsModule,
     ReactiveFormsModule,
     CoreModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
