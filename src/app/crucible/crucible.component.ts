@@ -18,6 +18,7 @@ export class CrucibleComponent {
   playerCtrl = new FormControl();
   foundPlayers: BungieUser[];
   players: CrucibleData[] = [];
+  player: CrucibleData;
   playerSubject = new BehaviorSubject([]);
   dataSource = new CrucibleDataSource(this.playerSubject.asObservable());
   displayedColumns = ['name', 'avgKd'];
@@ -27,8 +28,7 @@ export class CrucibleComponent {
   constructor(private bungie: BungieService, private crucible: CrucibleService) {
     // Observable to search for users on keypress (debounce used in service to prevent unnecessary API calls)
     this.bungie.searchUser(this.searchTerm).pipe(
-      tap(players => this.foundPlayers = players),
-      tap(console.log)
+      tap(players => this.foundPlayers = players)
     ).subscribe();
   }
 
@@ -48,8 +48,14 @@ export class CrucibleComponent {
       tap(({ displayName }) => this.displayedPlayer = displayName),
       switchMap(({ displayName }) => this.crucible.getKD(displayName)),
     ).subscribe(kd => {
+      this.player = { name: this.playerCtrl.value, avgKd: kd };
       this.players.push({ name: this.playerCtrl.value, avgKd: kd });
       this.playerSubject.next(this.players);
     });
+  }
+
+  clearSearch() {
+    this.playerCtrl.setValue('');
+    this.foundPlayers = [];
   }
 }

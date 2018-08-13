@@ -1,26 +1,49 @@
-<div class="container">
-  <form (submit)="submit()">
-    <mat-form-field>
-      <input type="text" autocomplete="off" placeholder="Search for guardian" matInput [formControl]="playerCtrl" [matAutocomplete]="playerAutocomplete" (keypress)="searchPlayer()">
-      <mat-autocomplete #playerAutocomplete="matAutocomplete" (optionSelected)="submit()">
-        <mat-option *ngFor="let player of foundPlayers" [value]="player.displayName">
-          {{player.displayName}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
+<header class="crucible-header">
+  <div class="container">
+    <h2>Crucible</h2>
+    <form (submit)="submit()" class="dark-theme">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Search for Guardian</mat-label>
+        <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+               matInput
+               [formControl]="playerCtrl"
+               [matAutocomplete]="playerAutocomplete"
+               (keypress)="searchPlayer()">
+        <button type="button" mat-button *ngIf="playerCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete #playerAutocomplete="matAutocomplete" (optionSelected)="submit()">
+          <mat-option *ngFor="let player of foundPlayers" [value]="player.displayName">
+            {{player.displayName}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+</header>
 
-  <table mat-table [dataSource]="dataSource" class="crucible-data-table" *ngIf="players.length > 0">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Guardian</th>
-      <td mat-cell *matCellDef="let player">{{player.name}}</td>
-    </ng-container>
-    <ng-container matColumnDef="avgKd">
-      <th mat-header-cell *matHeaderCellDef>Avg K/D</th>
-      <td mat-cell *matCellDef="let player">{{player.avgKd}}</td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+<div class="container">
+  <section class="player" *ngIf="player">
+    <h3>{{player.name}}</h3>
+    <div>
+      <span class="label">Avg. KD</span>
+      <span class="value">{{player.avgKd}}</span>
+    </div>
+  </section>
+
+
+
+  <!--<table mat-table [dataSource]="dataSource" class="crucible-data-table" *ngIf="players.length > 0">-->
+    <!--<ng-container matColumnDef="name">-->
+      <!--<th mat-header-cell *matHeaderCellDef>Guardian</th>-->
+      <!--<td mat-cell *matCellDef="let player">{{player.name}}</td>-->
+    <!--</ng-container>-->
+    <!--<ng-container matColumnDef="avgKd">-->
+      <!--<th mat-header-cell *matHeaderCellDef>Avg K/D</th>-->
+      <!--<td mat-cell *matCellDef="let player">{{player.avgKd}}</td>-->
+    <!--</ng-container>-->
+    <!--<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+    <!--<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+  <!--</table>-->
 
 </div>

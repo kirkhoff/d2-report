@@ -1,1 +1,94 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$black: #0a191e;
+$white: #fffae5;
+
+$teal: (
+  50 : #e2f3f4,
+  100 : #b7e1e5,
+  200 : #87cdd3,
+  300 : #56b8c1,
+  400 : #32a9b4,
+  500 : #0e9aa7,
+  600 : #0c929f,
+  700 : #0a8896,
+  800 : #087e8c,
+  900 : #046c7c,
+  A100 : #a9f2ff,
+  A200 : #76ebff,
+  A400 : #43e3ff,
+  A700 : #2ae0ff,
+  contrast: (
+    50 : $black,
+    100 : $black,
+    200 : $black,
+    300 : $black,
+    400 : $black,
+    500 : $white,
+    600 : $white,
+    700 : $white,
+    800 : $white,
+    900 : $white,
+    A100 : $black,
+    A200 : $black,
+    A400 : $black,
+    A700 : $black,
+  )
+);
+
+$yellow: (
+  50 : #fef9ec,
+  100 : #fcf0d0,
+  200 : #fbe6b0,
+  300 : #f9dc90,
+  400 : #f7d579,
+  500 : #f6cd61,
+  600 : #f5c859,
+  700 : #f3c14f,
+  800 : #f2ba45,
+  900 : #efae33,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffedce,
+  A700 : #ffe4b5,
+  contrast: (
+    50 : $black,
+    100 : $black,
+    200 : $black,
+    300 : $black,
+    400 : $black,
+    500 : $black,
+    600 : $black,
+    700 : $black,
+    800 : $black,
+    900 : $black,
+    A100 : $black,
+    A200 : $black,
+    A400 : $black,
+    A700 : $black,
+  )
+);
+
+$primary-palette: mat-palette($teal);
+$secondary-palette: mat-palette($yellow);
+$light-theme: mat-light-theme($primary-palette, $secondary-palette);
+$dark-theme: mat-dark-theme($primary-palette, $secondary-palette);
+
+$typography: mat-typography-config(
+  $font-family: "'Josefin Sans', serif",
+  $headline: mat-typography-level(24px, 1.5, 700),
+  $body-1: mat-typography-level(14px, 1.3, 500)
+);
+
+@include angular-material-theme($light-theme);
+@include angular-material-typography($typography);
+
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+}
+
+.light-theme {
+  @include angular-material-theme($light-theme);
+}
