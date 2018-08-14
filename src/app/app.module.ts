@@ -9,22 +9,36 @@ import {MaterialModule} from './material.module';
 import {HeaderComponent} from './header/header.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CrucibleComponent} from './crucible/crucible.component';
+import {CrucibleOverviewComponent} from './crucible/crucible-overview/crucible-overview.component';
+import {CompetitiveComponent} from './crucible/competitive/competitive.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: CrucibleComponent
+    path: 'crucible',
+    component: CrucibleComponent,
+    children: [
+      {
+        path: '',
+        component: CrucibleOverviewComponent
+      },
+      {
+        path: 'competitive',
+        component: CompetitiveComponent
+      }
+    ]
   },
   {
     path: '**',
-    redirectTo: '/'
+    redirectTo: '/crucible'
   }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    CompetitiveComponent,
     CrucibleComponent,
+    CrucibleOverviewComponent,
     HeaderComponent
   ],
   imports: [

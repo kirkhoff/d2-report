@@ -1,7 +1,27 @@
-@require 'vars.styl'
+@require 'grid.styl'
 
 :host
   display block
+.sub-nav
+  container()
+  align-items center
+  background lighten(clr-grey, 15%)
+  display flex
+  height 3em
+  justify-content flex-start
+  a
+    align-items center
+    color clr-white
+    display flex
+    font-size .8em
+    font-weight 700
+    height 100%
+    line-height 1
+    padding 0 10px
+    text-decoration none
+    text-transform uppercase
+    &.active
+      background rgba(clr-secondary, 20%)
 .crucible-header
   background clr-primary
   justify-content center
@@ -19,21 +39,6 @@
     mat-form-field
       margin-bottom -1.25em
       min-width 250px
-
-.player
-  margin-top 1em
-  h3
-    color clr-tertiary
-    font-size 1.5em
-    font-weight 700
-    margin 1em 0
-  .label
-    color clr-grey
-    font-size .8em
-    text-transform uppercase
-    &:after
-      content ': '
-      margin-right 1.5em
 
 +mobile-only()
   .crucible-header
