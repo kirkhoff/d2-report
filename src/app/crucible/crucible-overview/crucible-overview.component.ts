@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CrucibleService} from '../crucible.service';
 import {BungieService} from '../../core/bungie.service';
-import {map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {DestinyCharacter} from '../../core/bungie.model';
 import {ActivityMode, DestinyClassType} from '../../core/bungie.enums';
@@ -22,11 +22,12 @@ export class CrucibleOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.pipe(
-      tap(({ player }) => {
-        this.username = player;
-        this.avgKdAcrossCharacters = this.crucible.getKD(player);
-      }),
-      switchMap(({ player }) => this.crucible.getGuardians(player)),
+      tap(({ player }) => this.username = player),
+      switchMap(({ player }) => this.bungie.searchPlayer(player)),
+      filter(players => players && players.length > 0),
+      map(players => players[0]),
+      tap(({ displayName }) => this.avgKdAcrossCharacters = this.crucible.getKD(displayName)),
+      switchMap(({ displayName }) => this.crucible.getGuardians(displayName)),
       tap(guardian => this.guardians.push(guardian)),
       mergeMap(guardian => this.bungie.getHistoricalStats(guardian.membershipId, guardian.characterId, {
         modes: [
