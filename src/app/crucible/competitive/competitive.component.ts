@@ -20,6 +20,7 @@ export class CompetitiveComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.pipe(
+      tap(() => this.fireteam = []),
       tap(({ player }) => this.username = player),
       switchMap(({ player }) => this.bungie.searchPlayer(player)),
       filter(players => players && players.length > 0),
