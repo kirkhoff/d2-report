@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 
-import {AccountStats, BungieProfile, BungieUser, DestinyCharacterResponse} from './bungie.model';
+import {AccountStats, BungieProfile, UserInfoCard, DestinyCharacterResponse, PostGameCarnageReportData} from './bungie.model';
 import {CoreModule} from './core.module';
 import {DestinyComponentType} from './bungie.enums';
 
@@ -57,14 +57,14 @@ export class BungieService {
     return this.http.get<any>(url);
   }
 
-  searchPlayer(player: string): Observable<BungieUser[]> {
+  searchPlayer(player: string): Observable<UserInfoCard[]> {
     const url = `${api}/Platform/Destiny2/SearchDestinyPlayer/${this.platform}/${player}/?components=100`;
-    return this.http.get<BungieUser[]>(url);
+    return this.http.get<UserInfoCard[]>(url);
   }
 
-  getMembershipsById(id: string): Observable<BungieUser[]> {
+  getMembershipsById(id: string): Observable<UserInfoCard[]> {
     const url = `${api}/Platform/User/GetMembershipsById/${id}/${this.platform}`;
-    return this.http.get<BungieUser[]>(url);
+    return this.http.get<UserInfoCard[]>(url);
   }
 
   getMemberId(player: string): Observable<string> {
@@ -80,6 +80,11 @@ export class BungieService {
   getCharacter(destinyMembershipId: string, characterId: string): Observable<DestinyCharacterResponse> {
     const url = `${api}/Platform/Destiny2/${this.platform}/Profile/${destinyMembershipId}/Character/${characterId}/?components=${DestinyComponentType.Characters}`;
     return this.http.get<DestinyCharacterResponse>(url);
+  }
+
+  getPostGameCarnageReport(activityId: string): Observable<PostGameCarnageReportData> {
+    const url = `${api}/Platform/Destiny2/Stats/PostGameCarnageReport/${activityId}/`;
+    return this.http.get<PostGameCarnageReportData>(url);
   }
 
   getHistoricalStats(destinyMembershipId: string, characterId: string, options?: any): Observable<any> {

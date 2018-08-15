@@ -4,11 +4,12 @@ export interface BungieResponse<T> {
   Response: T;
 }
 
-export interface BungieUser {
-  membershipType: number;
+export interface UserInfoCard {
+  supplementalDisplayName: string;
+  iconPath: string;
+  membershipType: MembershipType;
   membershipId: string;
   displayName: string;
-  iconPath: string;
 }
 
 export interface BungieProfile {
@@ -17,7 +18,7 @@ export interface BungieProfile {
     data: {
       characterIds: string[];
       dateLastPlayed: string;
-      userInfo: BungieUser;
+      userInfo: UserInfoCard;
       versionsOwned: number;
     };
   };
@@ -84,4 +85,43 @@ export interface DestinyCharacterResponse {
   equipment: {};
   kiosks: {};
   itemComponents: {};
+}
+
+export interface HistoricalStatsValuePair {
+  value: number;
+  displayValue: string;
+}
+
+export interface HistoricalStats {
+  statId: string;
+  basic: HistoricalStatsValuePair;
+  pga: HistoricalStatsValuePair;
+  weighted: HistoricalStatsValuePair;
+  activityId: number;
+}
+
+export interface Player {
+  destinyUserInfo: UserInfoCard;
+  characterClass: string;
+  characterLevel: number;
+  lightLevel: number;
+  bungieNetUserInfo: UserInfoCard;
+  clanName: string;
+  clanTag: string;
+  emblemHash: number;
+}
+
+export interface PostGameCarnageEntry {
+  standing: number;
+  score: HistoricalStats;
+  player: Player;
+  characterId: string;
+  values: any; // TODO
+}
+
+export interface PostGameCarnageReportData {
+  period: string;
+  activityDetails: any; // TODO
+  entries: PostGameCarnageEntry[];
+  teams: any[]; // TODO
 }

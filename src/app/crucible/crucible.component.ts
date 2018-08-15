@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {BungieUser} from '../core/bungie.model';
+import {UserInfoCard} from '../core/bungie.model';
 import {Subject} from 'rxjs';
 import {BungieService} from '../core/bungie.service';
 import {tap} from 'rxjs/operators';
@@ -13,7 +13,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class CrucibleComponent implements OnInit {
   playerCtrl = new FormControl();
-  foundPlayers: BungieUser[];
+  foundPlayers: UserInfoCard[];
   playerParam: string;
 
   private searchTerm = new Subject<string>();

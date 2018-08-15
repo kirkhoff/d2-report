@@ -1,1 +1,23 @@
-Comp
+<div class="container">
+  <section *ngFor="let guardian of fireteam" class="guardian">
+    <header>
+      <h3>{{guardian.player.destinyUserInfo.displayName}}</h3>
+      <div class="character-class">{{guardian.player.characterClass}}</div>
+    </header>
+
+    <table class="guardian-stats">
+      <tr>
+        <th>Crucible Mode</th>
+        <th>KD</th>
+      </tr>
+      <tr>
+        <td class="label">Countdown</td>
+        <td class="value">{{getKd(guardian.characterId, 'countdown')}}</td>
+      </tr>
+      <tr>
+        <td class="label">Survival</td>
+        <td class="value">{{getKd(guardian.characterId, 'survival')}}</td>
+      </tr>
+    </table>
+  </section>
+</div>

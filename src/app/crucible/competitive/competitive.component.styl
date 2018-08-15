@@ -1,0 +1,46 @@
+@require 'grid.styl'
+
+:host
+  box-sizing border-box
+  display block
+  padding 1em 0
+.guardian
+  border-radius 2px
+  box-shadow 1px 0 10px 0 rgba(#000, .2)
+  box-sizing border-box
+  margin-bottom 1em
+  overflow hidden
+  width 100%
+  header
+    align-items center
+    background clr-secondary
+    display flex
+    justify-content space-between
+    padding 1em
+  h3
+    color clr-grey
+    font-size 1.5em
+    font-weight 700
+  .character-class
+    color darken(clr-secondary, 50%)
+    font-size .9em
+    font-weight 400
+    text-transform uppercase
+.guardian-stats
+  width 100%
+  tr:first-child
+    background lighten(clr-grey, 80%)
+  th,
+  td
+    padding 10px
+    text-align left
+    vertical-align middle
+  tr:nth-child(2n+3)
+    background lighten(clr-secondary, 90%)
+.label
+  color clr-grey
+  font-size .8em
+  text-transform uppercase
+  &:after
+    content ': '
+    margin-right 1.5em
