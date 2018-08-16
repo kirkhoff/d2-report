@@ -22,6 +22,7 @@ export interface BungieProfile {
       versionsOwned: number;
     };
   };
+  characterProgressions: any; // TODO
 }
 
 export interface AccountStats {
