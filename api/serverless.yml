@@ -1,0 +1,11 @@
+service: d2-report
+provider:
+  name: aws
+  runtime: nodejs8.10
+functions:
+  getManifest:
+    handler: handler.getManifest
+    events:
+    - http:
+        path: get-manifest
+        method: get
