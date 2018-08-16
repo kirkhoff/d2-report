@@ -1,0 +1,41 @@
+@require 'vars.styl'
+
+icon-width = 50px
+
+.loading,
+.loading:before,
+.loading:after
+  width icon-width
+  height icon-width
+  border-radius 50%
+
+.loading
+  margin 0 auto
+  position relative
+  background transparent
+
+.loading:before,
+.loading:after
+  position absolute
+  left 0
+  top 0
+  content ""
+  border (icon-width * .1) solid clr-primary
+  opacity 0.5
+  animation 3s rotate infinite linear
+
+.loading:before
+  border-left-color transparent
+
+.loading:after
+  top 16.5%
+  left 16.5%
+  width (icon-width / 1.5)
+  height (icon-width / 1.5)
+  border-right-color transparent
+  opacity 0.2
+  animation-direction reverse
+
+@keyframes rotate
+  100%
+    transform rotate(360deg)

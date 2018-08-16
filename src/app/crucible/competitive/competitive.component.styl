@@ -4,6 +4,19 @@
   box-sizing border-box
   display block
   padding 1em 0
+.loading
+  margin-top 3em
+header.searched-player
+  align-items center
+  display flex
+  justify-content flex-start
+  h3
+    color clr-tertiary
+    font-size 1.5em
+    font-weight 700
+    margin 1em 0
+    .sm
+      color lighten(clr-grey, 50%)
 .guardian
   border-radius 2px
   box-shadow 1px 0 10px 0 rgba(#000, .2)
@@ -17,10 +30,11 @@
     display flex
     justify-content space-between
     padding 1em
-  h3
-    color clr-grey
+  h4 > a
+    color clr-grey !important
     font-size 1.5em
     font-weight 700
+    text-decoration none
   .character-class
     color darken(clr-secondary, 50%)
     font-size .9em

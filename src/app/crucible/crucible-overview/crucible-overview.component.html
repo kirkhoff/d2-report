@@ -1,40 +1,47 @@
-<header class="container">
-  <h3>{{username}}</h3>
-  <div class="avg-kd" *ngIf="avgKdAcrossCharacters | async as kd"><span class="sm">Avg. KD: </span>{{kd}}</div>
-</header>
+<ng-container [ngSwitch]="guardians && guardians.length > 0">
+  <ng-container *ngSwitchCase="false">
+    <div class="loading"></div>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <header class="container">
+      <h3>{{username}}</h3>
+      <div class="avg-kd" *ngIf="avgKdAcrossCharacters | async as kd"><span class="sm">Avg. KD: </span>{{kd}}</div>
+    </header>
 
-<section *ngFor="let g of guardians">
-  <h4 class="container">{{getGuardianClass(g.classType)}}</h4>
-  <div class="container">
-    <table class="guardian-stats">
-      <tr>
-        <th>Crucible Mode</th>
-        <th>KD</th>
-      </tr>
-      <tr>
-        <td class="label">All PvP</td>
-        <td class="value">{{getKd(g.characterId, 'allPvP')}}</td>
-      </tr>
-      <tr>
-        <td class="label">Countdown</td>
-        <td class="value">{{getKd(g.characterId, 'countdown')}}</td>
-      </tr>
-      <tr>
-        <td class="label">Survival</td>
-        <td class="value">{{getKd(g.characterId, 'survival')}}</td>
-      </tr>
-      <tr>
-        <td class="label">Iron Banner</td>
-        <td class="value">{{getKd(g.characterId, 'ironBanner')}}</td>
-      </tr>
-      <tr>
-        <td class="label">Clash</td>
-        <td class="value">{{getKd(g.characterId, 'clash')}}</td>
-      </tr>
-      <tr>
-        <td class="label">Control</td>
-        <td class="value">{{getKd(g.characterId, 'control')}}</td>
-      </tr>
-    </table>
-  </div>
-</section>
+    <section *ngFor="let g of guardians">
+      <h4 class="container">{{getGuardianClass(g.classType)}}</h4>
+      <div class="container">
+        <table class="guardian-stats">
+          <tr>
+            <th>Crucible Mode</th>
+            <th>KD</th>
+          </tr>
+          <tr>
+            <td class="label">All PvP</td>
+            <td class="value">{{getKd(g.characterId, 'allPvP')}}</td>
+          </tr>
+          <tr>
+            <td class="label">Countdown</td>
+            <td class="value">{{getKd(g.characterId, 'countdown')}}</td>
+          </tr>
+          <tr>
+            <td class="label">Survival</td>
+            <td class="value">{{getKd(g.characterId, 'survival')}}</td>
+          </tr>
+          <tr>
+            <td class="label">Iron Banner</td>
+            <td class="value">{{getKd(g.characterId, 'ironBanner')}}</td>
+          </tr>
+          <tr>
+            <td class="label">Clash</td>
+            <td class="value">{{getKd(g.characterId, 'clash')}}</td>
+          </tr>
+          <tr>
+            <td class="label">Control</td>
+            <td class="value">{{getKd(g.characterId, 'control')}}</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+  </ng-container>
+</ng-container>

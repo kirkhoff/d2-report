@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {UserInfoCard} from '../core/bungie.model';
 import {Subject} from 'rxjs';
@@ -18,7 +18,7 @@ export class CrucibleComponent implements OnInit {
 
   private searchTerm = new Subject<string>();
 
-  constructor(private bungie: BungieService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private bungie: BungieService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     // Observable to search for users on keypress (debounce used in service to prevent unnecessary API calls)
@@ -27,7 +27,8 @@ export class CrucibleComponent implements OnInit {
     ).subscribe();
 
     this.route.queryParams.pipe(
-      tap(qp => this.playerParam = qp.player || null)
+      tap(qp => this.playerParam = qp.player || null),
+      tap(() => this.cdr.detectChanges())
     ).subscribe();
   }
 
@@ -38,8 +39,11 @@ export class CrucibleComponent implements OnInit {
 
   // Bound to form submit
   submit() {
-    return this.router.navigate(['/crucible'], {
+    this.foundPlayers = [];
+    return this.router.navigate([], {
+      relativeTo: this.route,
       queryParams: {
+        ...this.route.snapshot.queryParams,
         player: this.playerCtrl.value
       }
     });

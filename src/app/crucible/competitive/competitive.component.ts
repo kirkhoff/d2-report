@@ -27,7 +27,6 @@ export class CompetitiveComponent implements OnInit {
       map(players => players[0]),
       switchMap(({ displayName }) => this.crucible.getMostRecentActivity(displayName)),
       switchMap(({ activity }) => this.bungie.getPostGameCarnageReport(activity.activityDetails.instanceId).pipe(
-        tap(rsp => console.log(activity, rsp)),
         map(rsp => {
           const teamId = activity.values.team.basic.value;
           return rsp.entries.filter(player => player.values.team.basic.value === teamId);
@@ -38,7 +37,8 @@ export class CompetitiveComponent implements OnInit {
       mergeMap(entry => this.bungie.getHistoricalStats(entry.player.destinyUserInfo.membershipId, entry.characterId.toString(), {
         modes: [
           ActivityMode.Survival,
-          ActivityMode.Countdown
+          ActivityMode.Countdown,
+          ActivityMode.AllPvP,
         ]
       }).pipe(
         map(stats => ({ characterId: entry.characterId, stats}))
