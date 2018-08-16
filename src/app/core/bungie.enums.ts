@@ -62,7 +62,7 @@ export enum DestinyComponentType {
   VendorReceipts = 101,
   ProfileInventories = 102,
   ProfileCurrencies = 103,
-  ProfilePregression = 104,
+  ProfileProgression = 104,
   Characters = 200,
   CharacterInventories = 201,
   CharacterProgressions = 202,
@@ -86,5 +86,10 @@ export enum DestinyComponentType {
 }
 
 export enum DestinyDefinition {
-  Activity = 'DestinyActivityDefinition'
+  Activity = 'DestinyActivityDefinition',
+  Progression = 'DestinyProgressionDefinition'
+}
+
+export enum ProgressionHash {
+  GloryRank = 2679551909
 }

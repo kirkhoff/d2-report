@@ -72,13 +72,13 @@ export class BungieService {
     return this.http.get<string>(url).pipe();
   }
 
-  getProfile(destinyMembershipId: string): Observable<BungieProfile> {
-    const url = `${api}/Platform/Destiny2/${this.platform}/Profile/${destinyMembershipId}/?components=${DestinyComponentType.Profiles}`;
+  getProfile(destinyMembershipId: string, options = { components: DestinyComponentType.Profiles }): Observable<BungieProfile> {
+    const url = `${api}/Platform/Destiny2/${this.platform}/Profile/${destinyMembershipId}/${this.getQueryString(options)}`;
     return this.http.get<BungieProfile>(url);
   }
 
-  getCharacter(destinyMembershipId: string, characterId: string): Observable<DestinyCharacterResponse> {
-    const url = `${api}/Platform/Destiny2/${this.platform}/Profile/${destinyMembershipId}/Character/${characterId}/?components=${DestinyComponentType.Characters}`;
+  getCharacter(destinyMembershipId: string, characterId: string, options?: any): Observable<DestinyCharacterResponse> {
+    const url = `${api}/Platform/Destiny2/${this.platform}/Profile/${destinyMembershipId}/Character/${characterId}/${this.getQueryString(options)}`;
     return this.http.get<DestinyCharacterResponse>(url);
   }
 

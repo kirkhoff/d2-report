@@ -3,7 +3,7 @@ import {combineAll, map, mergeAll, mergeMap, take, tap} from 'rxjs/operators';
 
 import {BungieService} from '../core/bungie.service';
 import {CoreModule} from '../core/core.module';
-import {ActivityMode} from '../core/bungie.enums';
+import {ActivityMode, DestinyComponentType, ProgressionHash} from '../core/bungie.enums';
 import {forkJoin, Observable} from 'rxjs';
 import {DestinyCharacter} from '../core/bungie.model';
 
@@ -62,8 +62,16 @@ export class CrucibleService {
       mergeMap(id => this.bungie.getProfile(id)),
       tap(rsp => this.membershipId = rsp.profile.data.userInfo.membershipId),
       mergeMap(rsp => rsp.profile.data.characterIds),
-      mergeMap(id => this.bungie.getCharacter(this.membershipId, id)),
+      mergeMap(id => this.bungie.getCharacter(this.membershipId, id, { components: DestinyComponentType.Characters })),
       map(rsp => rsp.character.data)
+    );
+  }
+
+  getGloryRank(player: string, characterId: string): Observable<number> {
+    return this.bungie.getMemberId(player).pipe(
+      mergeMap(id => this.bungie.getProfile(id, { components: DestinyComponentType.CharacterProgressions })),
+      map(rsp => rsp.characterProgressions.data[characterId].progressions[ProgressionHash.GloryRank].currentProgress),
+      take(1)
     );
   }
 }

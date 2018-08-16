@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {filter, map, mergeAll, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {PostGameCarnageEntry} from '../../core/bungie.model';
 import {ActivityMode} from '../../core/bungie.enums';
+import {forkJoin} from 'rxjs';
 
 @Component({
   selector: 'dr-competitive',
@@ -14,9 +15,9 @@ import {ActivityMode} from '../../core/bungie.enums';
 export class CompetitiveComponent implements OnInit {
   username: string;
   fireteam: PostGameCarnageEntry[];
-  stats: { characterId: string, stats: any }[] = [];
+  stats: { characterId: string, stats: any, gloryRank: number }[] = [];
 
-  constructor(private bungie: BungieService, private crucible: CrucibleService, private route: ActivatedRoute) {}
+  constructor(private bungie: BungieService, public crucible: CrucibleService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.queryParams.pipe(
@@ -34,21 +35,28 @@ export class CompetitiveComponent implements OnInit {
         tap(fireteam => this.fireteam = fireteam)
       )),
       mergeAll(),
-      mergeMap(entry => this.bungie.getHistoricalStats(entry.player.destinyUserInfo.membershipId, entry.characterId.toString(), {
-        modes: [
-          ActivityMode.Survival,
-          ActivityMode.Countdown,
-          ActivityMode.AllPvP,
-        ]
-      }).pipe(
-        map(stats => ({ characterId: entry.characterId, stats}))
-      )),
-      tap(stats => this.stats.push(stats))
+      mergeMap(entry => forkJoin(
+        this.bungie.getHistoricalStats(entry.player.destinyUserInfo.membershipId, entry.characterId, {
+          modes: [
+            ActivityMode.Survival,
+            ActivityMode.Countdown,
+            ActivityMode.AllPvP,
+          ]
+        }),
+        this.crucible.getGloryRank(entry.player.destinyUserInfo.displayName, entry.characterId)
+      ).pipe(
+        tap(([stats, gloryRank]) => this.stats.push({ characterId: entry.characterId, stats, gloryRank}))
+      ))
     ).subscribe();
   }
 
   getKd(characterId: string, mode: string): string {
     const character = this.stats.find(x => x.characterId === characterId);
     return character ? character.stats[mode].allTime.killsDeathsRatio.basic.displayValue : '';
+  }
+
+  getGloryRank(characterId: string): number {
+    const character = this.stats.find(x => x.characterId === characterId);
+    return character ? character.gloryRank : 0;
   }
 }

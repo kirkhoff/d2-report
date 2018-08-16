@@ -35,22 +35,26 @@ header.searched-player
     font-size 1.5em
     font-weight 700
     text-decoration none
-  .character-class
+  .character-info
+    sans-font()
     color darken(clr-secondary, 50%)
     font-size .9em
     font-weight 400
     text-transform uppercase
 .guardian-stats
   width 100%
-  tr:first-child
-    background lighten(clr-grey, 80%)
-  th,
   td
     padding 10px
-    text-align left
     vertical-align middle
-  tr:nth-child(2n+3)
+  td:first-child
+    text-align left
+  td:not(:first-child)
+    text-align right
+  tr:nth-child(even)
     background lighten(clr-secondary, 90%)
+  tr.glory-rank td
+    color clr-tertiary
+    font-weight 700
 .label
   color clr-grey
   font-size .8em
@@ -58,3 +62,5 @@ header.searched-player
   &:after
     content ': '
     margin-right 1.5em
+.value .sm
+  color lighten(clr-grey, 50%)
