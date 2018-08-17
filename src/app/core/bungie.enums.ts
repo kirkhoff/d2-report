@@ -8,6 +8,36 @@ export enum MembershipType {
   All = -1
 }
 
+export enum FireteamActivityType {
+  All = 0,
+  Raid = 1,
+  Crucible = 2,
+  Trials = 3,
+  Nightfall = 4,
+  Anything = 5,
+}
+
+export enum FireteamDateRange {
+  All = 0,
+  Now = 1,
+  TwentyFourHours = 2,
+  FortyEightHours = 3,
+  ThisWeek = 4
+}
+
+export enum FireteamPlatform {
+  Unknown = 0,
+  Playstation4 = 1,
+  XboxOne = 2,
+  Blizzard = 3
+}
+
+export enum FireteamSlotSearch {
+  NoSlotRestriction = 0,
+  HasOpenPlayerSlots = 1,
+  HasOpenPlayerOrAltSlots = 2
+}
+
 export enum ActivityMode {
   None = 0,
   Story = 2,

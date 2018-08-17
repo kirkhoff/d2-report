@@ -69,7 +69,7 @@ export class CrucibleService {
 
   getGloryRank(player: string, characterId: string): Observable<number> {
     return this.bungie.getMemberId(player).pipe(
-      mergeMap(id => this.bungie.getProfile(id, { components: DestinyComponentType.CharacterProgressions })),
+      mergeMap(id => this.bungie.getProfile(id, { components: [DestinyComponentType.CharacterProgressions] })),
       map(rsp => rsp.characterProgressions.data[characterId].progressions[ProgressionHash.GloryRank].currentProgress),
       take(1)
     );

@@ -1,0 +1,80 @@
+@require 'vars.styl'
+
+.fireteam
+  background clr-white
+  border-radius 2px
+  box-shadow card-shadow
+  margin 1em 0
+  overflow hidden
+  &:last-child
+    border-bottom 0
+  .activity-type
+    background clr-primary-accent
+    height 2px
+    position relative
+    text-align right
+    text-transform uppercase
+    width 100%
+    span
+      background clr-primary-accent
+      border-radius 2px
+      color clr-white
+      display block
+      font-size .5em
+      font-weight 700
+      padding 4px 3px 1px
+      position absolute
+      right 0
+      top 0
+  header
+    background clr-secondary
+    padding 1em
+    h3
+      sans-font()
+      color clr-grey
+      font-size 1.2em
+      margin-bottom .25em
+    time
+      color darken(clr-secondary, 50%)
+      font-size .6em
+      text-transform uppercase
+  .slots
+    align-items center
+    display flex
+    padding 1em
+  .slot
+    background #fff
+    border 1px solid clr-primary
+    border-radius 50%
+    box-sizing border-box
+    display block
+    height 1.5em
+    margin-right .8em
+    overflow hidden
+    width 1.5em
+    &.filled
+      background clr-primary
+  .leader-stats
+    padding 1em
+  h4
+    border-bottom 1px solid clr-tertiary
+    color clr-tertiary
+    font-size 1.3em
+    font-weight 700
+    margin-bottom 15px
+    padding-bottom 3px
+    width 100%
+  .stat
+    align-items center
+    display flex
+    justify-content space-between
+    margin-bottom .5em
+  .label
+    color lighten(clr-grey, 25%)
+    flex 1
+    font-size .75em
+    text-transform uppercase
+  .value
+    color clr-tertiary
+    flex 2
+    font-weight 700

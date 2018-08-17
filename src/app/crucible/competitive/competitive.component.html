@@ -1,48 +1,45 @@
-<ng-container [ngSwitch]="fireteam && fireteam.length">
-  <ng-container *ngSwitchCase="false">
-    <div class="loading"></div>
-  </ng-container>
-  <ng-container *ngSwitchDefault>
-    <div class="container">
-      <header class="searched-player">
-        <h3>
-          {{username}}'s
-          <div class="sm">most recent carnage report</div>
-        </h3>
+<ng-container *ngIf="fireteam; else loading">
+  <div class="container">
+    <header class="searched-player">
+      <h3>
+        {{username}}'s
+        <div class="sm">most recent carnage report</div>
+      </h3>
 
+    </header>
+
+    <section *ngFor="let guardian of fireteam" class="guardian">
+      <header>
+        <h4>
+          <a routerLink="/crucible/competitive"
+             [queryParams]="{ player: guardian.player.destinyUserInfo.displayName }">
+            {{guardian.player.destinyUserInfo.displayName}}
+          </a>
+        </h4>
+        <div class="character-info">{{guardian.player.characterClass}}</div>
       </header>
 
-      <section *ngFor="let guardian of fireteam" class="guardian">
-        <header>
-          <h4>
-            <a routerLink="/crucible/competitive"
-               [queryParams]="{ player: guardian.player.destinyUserInfo.displayName }">
-              {{guardian.player.destinyUserInfo.displayName}}
-            </a>
-          </h4>
-          <div class="character-info">{{guardian.player.characterClass}}</div>
-        </header>
-
-        <table class="guardian-stats">
-          <tr class="glory-rank">
-            <td class="label">Glory Rank</td>
-            <td class="value">{{getGloryRank(guardian.characterId)}}</td>
-          </tr>
-          <tr>
-            <td class="label">Countdown</td>
-            <td class="value">{{getKd(guardian.characterId, 'countdown')}} <span class="sm">KD</span></td>
-          </tr>
-          <tr>
-            <td class="label">Survival</td>
-            <td class="value">{{getKd(guardian.characterId, 'survival')}} <span class="sm">KD</span></td>
-          </tr>
-          <tr>
-            <td class="label">All PvP</td>
-            <td class="value">{{getKd(guardian.characterId, 'allPvP')}} <span class="sm">KD</span></td>
-          </tr>
-        </table>
-      </section>
-    </div>
-
-  </ng-container>
+      <table class="guardian-stats">
+        <tr class="glory-rank">
+          <td class="label">Glory Rank</td>
+          <td class="value">{{getGloryRank(guardian.characterId)}}</td>
+        </tr>
+        <tr>
+          <td class="label">Countdown</td>
+          <td class="value">{{getKd(guardian.characterId, 'countdown')}} <span class="sm">KD</span></td>
+        </tr>
+        <tr>
+          <td class="label">Survival</td>
+          <td class="value">{{getKd(guardian.characterId, 'survival')}} <span class="sm">KD</span></td>
+        </tr>
+        <tr>
+          <td class="label">All PvP</td>
+          <td class="value">{{getKd(guardian.characterId, 'allPvP')}} <span class="sm">KD</span></td>
+        </tr>
+      </table>
+    </section>
+  </div>
 </ng-container>
+<ng-template #loading>
+  <div class="loading"></div>
+</ng-template>

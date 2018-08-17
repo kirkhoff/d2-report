@@ -3,30 +3,34 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 
-import {AccountStats, BungieProfile, UserInfoCard, DestinyCharacterResponse, PostGameCarnageReportData} from './bungie.model';
+import {
+  AccountStats,
+  BungieProfile,
+  DestinyCharacterResponse,
+  PostGameCarnageReportData,
+  SearchResultOfFireteamSummary,
+  UserInfoCard
+} from './bungie.model';
 import {CoreModule} from './core.module';
-import {DestinyComponentType} from './bungie.enums';
+import {
+  DestinyComponentType,
+  FireteamActivityType,
+  FireteamDateRange,
+  FireteamPlatform,
+  FireteamSlotSearch,
+  MembershipType
+} from './bungie.enums';
 
 const api = 'https://www.bungie.net';
-
-enum Platform {
-  None = 0,
-  Xbox = 1,
-  PSN = 2,
-  Blizzard = 4,
-  Demon = 10,
-  BungieNext = 254,
-  All = -1
-}
 
 @Injectable({
   providedIn: CoreModule
 })
 export class BungieService {
-  platform: Platform = Platform.All;
+  platform: MembershipType = MembershipType.All;
 
   constructor(private http: HttpClient) {
-    this.platform = Platform.PSN; // TODO: Allow the user to choose their own platform
+    this.platform = MembershipType.PSN; // TODO: Allow the user to choose their own platform
   }
 
   private getQueryString(options: {}): string {
@@ -38,6 +42,15 @@ export class BungieService {
     return `?${params.toString()}`;
   }
 
+  // Fireteam endpoints
+
+  searchPublicAvailableClanFireteams(platform: FireteamPlatform, activityType: FireteamActivityType, dateRange: FireteamDateRange, slotFilter: FireteamSlotSearch, page: number): Observable<SearchResultOfFireteamSummary> {
+    const url = `${api}/Platform/Fireteam/Search/Available/${platform}/${activityType}/${dateRange}/${slotFilter}/${page}/`;
+    return this.http.get<SearchResultOfFireteamSummary>(url);
+  }
+
+  // User endpoints
+
   searchUser(user: string | Observable<string>): Observable<any> {
     return (typeof user === 'string') ?
       this.http.get<any>(`${api}/Platform/User/SearchUsers/?q=${user}`) :
@@ -46,6 +59,8 @@ export class BungieService {
         switchMap(term => this.http.get<any>(`${api}/Platform/User/SearchUsers/?q=${term}`))
       );
   }
+
+  // Destiny 2 endpoints
 
   getManifest(): Observable<any> {
     const url = `${api}/Platform/Destiny2/Manifest/`;
@@ -72,7 +87,7 @@ export class BungieService {
     return this.http.get<string>(url).pipe();
   }
 
-  getProfile(destinyMembershipId: string, options = { components: DestinyComponentType.Profiles }): Observable<BungieProfile> {
+  getProfile(destinyMembershipId: string, options = { components: [DestinyComponentType.Profiles] }): Observable<BungieProfile> {
     const url = `${api}/Platform/Destiny2/${this.platform}/Profile/${destinyMembershipId}/${this.getQueryString(options)}`;
     return this.http.get<BungieProfile>(url);
   }

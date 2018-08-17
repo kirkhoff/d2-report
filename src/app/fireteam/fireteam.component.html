@@ -1,0 +1,35 @@
+<ng-container *ngIf="search.results; else loading">
+  <ul class="container">
+    <li class="fireteam" *ngFor="let fireteam of search.results" [ngSwitch]="fireteam.activityType">
+      <aside class="activity-type">
+        <span>{{getActivityType(fireteam.activityType)}}</span>
+      </aside>
+      <header>
+        <h3>{{fireteam.title}}</h3>
+        <time>{{fireteam.datePlayerModified | amTimeAgo}}</time>
+      </header>
+      <div class="slots">
+        <span class="filled slot" *ngFor="let _ of (fireteam.playerSlotCount - fireteam.availablePlayerSlotCount) | numArr"></span>
+        <span class="slot" *ngFor="let _ of fireteam.availablePlayerSlotCount | numArr"></span>
+      </div>
+
+      <!-- Crucible Stats -->
+      <div class="leader-stats" *ngSwitchCase="2">
+        <h4>{{displayNames[fireteam.ownerMembershipId] | async}}</h4>
+        <ul>
+          <li class="stat">
+            <span class="label">Avg. KD:</span>
+            <span class="value">{{kds[fireteam.ownerMembershipId] | async}}</span>
+          </li>
+          <li class="stat">
+            <span class="label">Glory Rank:</span>
+            <span class="value">{{gloryRanks[fireteam.ownerMembershipId] | async}}</span>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</ng-container>
+<ng-template #loading>
+  <div class="loading"></div>
+</ng-template>

@@ -1,4 +1,4 @@
-import {DestinyClassType, MembershipType} from './bungie.enums';
+import {DestinyClassType, FireteamActivityType, FireteamPlatform, MembershipType} from './bungie.enums';
 
 export interface BungieResponse<T> {
   Response: T;
@@ -125,4 +125,42 @@ export interface PostGameCarnageReportData {
   activityDetails: any; // TODO
   entries: PostGameCarnageEntry[];
   teams: any[]; // TODO
+}
+
+// Fireteam
+
+export interface PagedQuery {
+  itemsPerPage: number;
+  currentPage: number;
+  requestContinuationToken: string;
+}
+
+export interface FireteamSummary {
+  fireteamId: number;
+  groupId: number;
+  platform: FireteamPlatform;
+  activityType: FireteamActivityType;
+  isImmediate: boolean;
+  scheduledTime?: string;
+  ownerMembershipId: number;
+  playerSlotCount: number;
+  alternateSlotCount?: number;
+  availablePlayerSlotCount: number;
+  availableAlternateSlotCount: number;
+  title: string;
+  dateCreated: string;
+  dateModified?: string;
+  isPublic: boolean;
+  locale: string;
+  isValid: boolean;
+  datePlayerModified: string;
+}
+
+export interface SearchResultOfFireteamSummary {
+  results: FireteamSummary[];
+  totalResults: number;
+  hasMore: boolean;
+  query: PagedQuery;
+  replacementContinuationToken: string;
+  useTotalResults: boolean;
 }
