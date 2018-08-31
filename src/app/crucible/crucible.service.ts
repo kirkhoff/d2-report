@@ -3,7 +3,7 @@ import {combineAll, map, mergeAll, mergeMap, take, tap} from 'rxjs/operators';
 
 import {BungieService} from '../core/bungie.service';
 import {CoreModule} from '../core/core.module';
-import {ActivityMode, DestinyComponentType, ProgressionHash} from '../core/bungie.enums';
+import {DestinyActivityModeType, DestinyComponentType, ProgressionHash} from '../core/bungie.enums';
 import {forkJoin, Observable} from 'rxjs';
 import {DestinyCharacter} from '../core/bungie.model';
 
@@ -23,17 +23,17 @@ export class CrucibleService {
       tap(id => {
         this.bungie.getHistoricalStats(this.membershipId, id, {
           modes: [
-            ActivityMode.Survival,
-            ActivityMode.Countdown,
-            ActivityMode.Control,
-            ActivityMode.Clash,
-            ActivityMode.IronBanner
+            DestinyActivityModeType.Survival,
+            DestinyActivityModeType.Countdown,
+            DestinyActivityModeType.Control,
+            DestinyActivityModeType.Clash,
+            DestinyActivityModeType.IronBanner
           ]
         }).subscribe();
       }),
       map(id => forkJoin(
-        this.bungie.getActivityHistory(this.membershipId, id, ActivityMode.Survival),
-        this.bungie.getActivityHistory(this.membershipId, id, ActivityMode.Countdown)
+        this.bungie.getActivityHistory(this.membershipId, id, DestinyActivityModeType.Survival),
+        this.bungie.getActivityHistory(this.membershipId, id, DestinyActivityModeType.Countdown)
       ).pipe(
         map(arr => arr.map(a => a.activities)),
         map(arr => ({

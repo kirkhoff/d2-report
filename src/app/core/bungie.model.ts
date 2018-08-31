@@ -1,6 +1,8 @@
 import {DestinyClassType, FireteamActivityType, FireteamPlatform, MembershipType} from './bungie.enums';
 
 export interface BungieResponse<T> {
+  ErrorCode: number;
+  ErrorStatus: string;
   Response: T;
 }
 

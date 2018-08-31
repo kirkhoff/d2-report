@@ -1,3 +1,8 @@
+export enum BungieErrorCode {
+  Success = 1,
+  WebAuthRequired = 99
+}
+
 export enum MembershipType {
   None = 0,
   Xbox = 1,
@@ -38,7 +43,7 @@ export enum FireteamSlotSearch {
   HasOpenPlayerOrAltSlots = 2
 }
 
-export enum ActivityMode {
+export enum DestinyActivityModeType {
   None = 0,
   Story = 2,
   Strike = 3,
@@ -51,7 +56,7 @@ export enum ActivityMode {
   Reserved11 = 11,
   Clash = 12,
   Reserved13 = 13,
-  Reserved15 = 15,
+  CrimsonDoubles = 15,
   Nightfall = 16,
   HeroicNightfall = 17,
   AllStrikes = 18,
@@ -60,14 +65,14 @@ export enum ActivityMode {
   Reserved21 = 21,
   Reserved22 = 22,
   Reserved24 = 24,
-  Reserved25 = 25,
+  AllMayhem = 25,
   Reserved26 = 26,
   Reserved27 = 27,
   Reserved28 = 28,
   Reserved29 = 29,
   Reserved30 = 30,
   Supremacy = 31,
-  Reserved32 = 32,
+  PrivateMatchesAll = 32,
   Survival = 37,
   Countdown = 38,
   TrialsOfTheNine = 39,
@@ -76,7 +81,26 @@ export enum ActivityMode {
   TrialsSurvival = 42,
   IronBannerControl = 43,
   IronBannerClash = 44,
-  IronBannerSupremacy = 45
+  IronBannerSupremacy = 45,
+  ScoredNightfall = 46,
+  ScoredHeroicNightfall = 47,
+  Rumble = 48,
+  AllDoubles = 49,
+  Doubles = 50,
+  PrivateMatchesClash = 50,
+  PrivateMatchesControl = 51,
+  PrivateMatchesSupremecy = 52,
+  PrivateMatchesCountdown = 54,
+  PrivateMatchesSurvival = 55,
+  PrivateMatchesMayhem = 56,
+  PrivateMatchesRumble = 57,
+  HeroicAdventure = 58,
+  Showdown = 59,
+  Lockdown = 60,
+  Scorched = 61,
+  ScorchedTeam = 62,
+  Gambit = 63,
+  AllPvECompetitive = 64
 }
 
 export enum DestinyClassType {

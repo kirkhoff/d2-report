@@ -4,7 +4,7 @@ import {CrucibleService} from '../crucible.service';
 import {ActivatedRoute} from '@angular/router';
 import {filter, map, mergeAll, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {PostGameCarnageEntry} from '../../core/bungie.model';
-import {ActivityMode} from '../../core/bungie.enums';
+import {DestinyActivityModeType} from '../../core/bungie.enums';
 import {forkJoin} from 'rxjs';
 
 @Component({
@@ -38,9 +38,9 @@ export class CompetitiveComponent implements OnInit {
       mergeMap(entry => forkJoin(
         this.bungie.getHistoricalStats(entry.player.destinyUserInfo.membershipId, entry.characterId, {
           modes: [
-            ActivityMode.Survival,
-            ActivityMode.Countdown,
-            ActivityMode.AllPvP,
+            DestinyActivityModeType.Survival,
+            DestinyActivityModeType.Countdown,
+            DestinyActivityModeType.AllPvP,
           ]
         }),
         this.crucible.getGloryRank(entry.player.destinyUserInfo.displayName, entry.characterId)

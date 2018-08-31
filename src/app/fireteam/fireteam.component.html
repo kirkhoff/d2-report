@@ -13,6 +13,8 @@
         <span class="slot" *ngFor="let _ of fireteam.availablePlayerSlotCount | numArr"></span>
       </div>
 
+      <p>{{fireteam.fireteamId}}</p>
+
       <!-- Crucible Stats -->
       <div class="leader-stats" *ngSwitchCase="2">
         <h4>{{displayNames[fireteam.ownerMembershipId] | async}}</h4>

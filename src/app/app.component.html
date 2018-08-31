@@ -1,18 +1,20 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav class="mobile-nav" #sidenav mode="push" position="end">
     <nav>
+      <a routerLink="/big" routerLinkActive="active" (click)="sidenav.close()">Get Big Quick</a>
       <a routerLink="/crucible" routerLinkActive="active" (click)="sidenav.close()">Crucible</a>
       <a routerLink="/fireteam" routerLinkActive="active" (click)="sidenav.close()">Fireteam</a>
     </nav>
   </mat-sidenav>
   <mat-sidenav-content>
-    <header>
+    <header class="main-header">
       <div class="container">
         <div class="branding">
           <img class="logo" src="assets/branding/d2-report-logo.svg" alt="">
           <h1><span class="sm">D2</span>.report</h1>
         </div>
         <nav class="desktop-nav">
+          <a routerLink="/big" routerLinkActive="active">Get Big Quick</a>
           <a routerLink="/crucible" routerLinkActive="active">Crucible</a>
           <a routerLink="/fireteam" routerLinkActive="active">Fireteam</a>
         </nav>
@@ -21,6 +23,8 @@
         </button>
       </div>
     </header>
-    <router-outlet></router-outlet>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -13,8 +13,17 @@ import {CompetitiveComponent} from './crucible/competitive/competitive.component
 import {FireteamComponent} from './fireteam/fireteam.component';
 import {MomentModule} from 'ngx-moment';
 import {SharedModule} from './shared/shared.module';
+import {GetBigComponent} from './get-big/get-big.component';
+import {SearchComponent} from './search/search.component';
 
 const routes: Routes = [
+  {
+    path: 'big',
+    component: GetBigComponent,
+    data: {
+      title: 'Get Big Quick'
+    }
+  },
   {
     path: 'crucible',
     component: CrucibleComponent,
@@ -35,7 +44,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/crucible'
+    redirectTo: '/big'
   }
 ];
 
@@ -45,7 +54,9 @@ const routes: Routes = [
     CompetitiveComponent,
     CrucibleComponent,
     CrucibleOverviewComponent,
-    FireteamComponent
+    FireteamComponent,
+    GetBigComponent,
+    SearchComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -32,6 +32,8 @@ export class FireteamComponent implements OnInit {
         this.gloryRanks[result.ownerMembershipId] = this.getGloryRank(result.ownerMembershipId);
       })
     ).subscribe();
+
+    this.bungie.joinFireteamThread(2247261).subscribe();
   }
 
   getActivityType(type: FireteamActivityType): string {

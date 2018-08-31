@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,600,700|Josefin+Slab:100,300,400,600,700')
-
+@import url('https://fonts.googleapis.com/css?family=Economica:400,700|Roboto+Condensed:300,400,700|Roboto:100,300,400,500,700,900')
 @require '~kouto-swiss/index.styl'
 @require '~jeet/styl/index.styl'
 
@@ -10,13 +9,14 @@ ks-meyer-reset()
 generate-grid()
 
 body
-  sans-font()
+  main-font()
   font-size 14px
   -moz-osx-font-smoothing grayscale
   -webkit-font-smoothing antialiased
 
 h1, h2, h3, h4, h5, h6
-  serif-font()
+  compressed-font()
+  font-weight 300
 
 .sm
   font-size .7em

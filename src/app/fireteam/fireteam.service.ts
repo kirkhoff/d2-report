@@ -13,9 +13,9 @@ export class FireteamService {
     return this.bungie.searchPublicAvailableClanFireteams(
       FireteamPlatform.Playstation4,
       FireteamActivityType.All,
-      FireteamDateRange.Now,
+      FireteamDateRange.ThisWeek,
       FireteamSlotSearch.HasOpenPlayerSlots,
-      0
+      10
     );
   }
 }

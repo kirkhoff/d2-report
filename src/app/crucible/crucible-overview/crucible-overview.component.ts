@@ -4,7 +4,7 @@ import {BungieService} from '../../core/bungie.service';
 import {filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {DestinyCharacter} from '../../core/bungie.model';
-import {ActivityMode, DestinyClassType} from '../../core/bungie.enums';
+import {DestinyActivityModeType, DestinyClassType} from '../../core/bungie.enums';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -32,12 +32,12 @@ export class CrucibleOverviewComponent implements OnInit {
       tap(guardian => this.guardians.push(guardian)),
       mergeMap(guardian => this.bungie.getHistoricalStats(guardian.membershipId, guardian.characterId, {
         modes: [
-          ActivityMode.Survival,
-          ActivityMode.Countdown,
-          ActivityMode.Control,
-          ActivityMode.Clash,
-          ActivityMode.IronBanner,
-          ActivityMode.AllPvP
+          DestinyActivityModeType.Survival,
+          DestinyActivityModeType.Countdown,
+          DestinyActivityModeType.Control,
+          DestinyActivityModeType.Clash,
+          DestinyActivityModeType.IronBanner,
+          DestinyActivityModeType.AllPvP
         ]
       }).pipe(
         map(stats => ({ characterId: guardian.characterId, stats }))

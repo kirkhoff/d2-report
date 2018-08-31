@@ -42,6 +42,13 @@ export class BungieService {
     return `?${params.toString()}`;
   }
 
+  // Forum endpoints
+
+  joinFireteamThread(topicId: number): Observable<any> {
+    const url = `${api}/Platform/Forum/Recruit/Join/${topicId}/`;
+    return this.http.post<any>(url, null);
+  }
+
   // Fireteam endpoints
 
   searchPublicAvailableClanFireteams(platform: FireteamPlatform, activityType: FireteamActivityType, dateRange: FireteamDateRange, slotFilter: FireteamSlotSearch, page: number): Observable<SearchResultOfFireteamSummary> {

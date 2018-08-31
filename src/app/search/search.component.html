@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>{{title}}</h2>
+  <form (submit)="submit()" class="dark-theme">
+    <mat-form-field appearance="outline" color="accent">
+      <mat-label>Search for Guardian</mat-label>
+      <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+             matInput
+             [formControl]="playerCtrl"
+             [matAutocomplete]="playerAutocomplete"
+             (keypress)="searchPlayer()">
+      <button type="button" mat-button *ngIf="playerCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="clear()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete #playerAutocomplete="matAutocomplete" (optionSelected)="submit()">
+        <mat-option *ngFor="let player of search.foundPlayers" [value]="player.displayName">
+          {{player.displayName}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>
