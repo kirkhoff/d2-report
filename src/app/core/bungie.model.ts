@@ -1,4 +1,4 @@
-import {DestinyClassType, FireteamActivityType, FireteamPlatform, MembershipType} from './bungie.enums';
+import {DestinyClass, FireteamActivityType, FireteamPlatform, MembershipType} from './bungie.enums';
 
 export interface BungieResponse<T> {
   ErrorCode: number;
@@ -14,8 +14,14 @@ export interface UserInfoCard {
   displayName: string;
 }
 
-export interface BungieProfile {
-  itemComponents: object;
+
+export interface DestinyProfileResponse {
+  characters: {
+    data: {
+      [character: number]: DestinyCharacterComponent;
+    }
+  };
+  itemComponents: any;
   profile: {
     data: {
       characterIds: string[];
@@ -54,11 +60,11 @@ export interface ColorRGBA {
   alpha: number;
 }
 
-export interface DestinyCharacter {
+export interface DestinyCharacterComponent {
   baseCharacterLevel: number;
   characterId: string;
   classHash: number;
-  classType: DestinyClassType;
+  classType: DestinyClass;
   dateLastPlayed: string;
   emblemBackgroundPath: string;
   emblemColor: ColorRGBA;
@@ -66,7 +72,7 @@ export interface DestinyCharacter {
   emblemPath: string;
   genderHash: number;
   genderType: number; // TODO: create enum
-  levelProgression: any; // TODO
+  levelProgression: DestinyProgression;
   light: number;
   membershipId: string;
   membershipType: MembershipType,
@@ -77,10 +83,24 @@ export interface DestinyCharacter {
   raceType: number; // TODO: create enum
 }
 
+export interface DestinyProgression {
+  progressionHash: number;
+  dailyProgress: number;
+  dailyLimit: number;
+  weeklyProgress: number;
+  weeklyLimit: number;
+  currentProgress: number;
+  level: number;
+  levelCap: number;
+  stepIndex: number;
+  progressToNextLevel: number;
+  nextLevelAt: number;
+}
+
 export interface DestinyCharacterResponse {
   inventory: {};
   character: {
-    data: DestinyCharacter
+    data: DestinyCharacterComponent
   };
   progressions: {};
   renderData: {};

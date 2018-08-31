@@ -1,0 +1,17 @@
+<div class="character-info">
+  <div>
+    <div class="class">{{characterClass | async}}</div>
+    <div class="race-gender">{{race | async}} {{gender | async}}</div>
+  </div>
+  <div>
+    <div class="light-level">{{data.light}}</div>
+    <div class="level">
+      <span class="label">LVL </span>
+      <span class="value">{{data.levelProgression.level}}</span>
+      <span class="level-cap"> / {{data.levelProgression.levelCap}}</span>
+    </div>
+  </div>
+</div>
+<div class="level-progress-bar">
+  <span class="progress" [style.width]="data.percentToNextLevel + '%'"></span>
+</div>

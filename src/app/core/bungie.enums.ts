@@ -103,7 +103,20 @@ export enum DestinyActivityModeType {
   AllPvECompetitive = 64
 }
 
-export enum DestinyClassType {
+export enum DestinyRace {
+  Human = 0,
+  Awoken = 1,
+  Exo = 2,
+  Unknown = 3
+}
+
+export enum DestinyGender {
+  Male = 0,
+  Female = 1,
+  Unknown = 2
+}
+
+export enum DestinyClass {
   Titan = 0,
   Hunter = 1,
   Warlock = 2,

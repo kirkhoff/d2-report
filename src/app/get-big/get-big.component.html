@@ -1,4 +1,10 @@
 <dr-search></dr-search>
+
+<section class="container character-overview">
+  <h3>Characters</h3>
+  <dr-character class="character" *ngFor="let c of characters" [data]="c"></dr-character>
+</section>
+
 <section class="container">
   <h3>Up Next</h3>
 

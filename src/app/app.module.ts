@@ -15,6 +15,7 @@ import {MomentModule} from 'ngx-moment';
 import {SharedModule} from './shared/shared.module';
 import {GetBigComponent} from './get-big/get-big.component';
 import {SearchComponent} from './search/search.component';
+import {CharacterComponent} from './guardian/character.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    CharacterComponent,
     CompetitiveComponent,
     CrucibleComponent,
     CrucibleOverviewComponent,

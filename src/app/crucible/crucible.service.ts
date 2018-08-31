@@ -5,7 +5,7 @@ import {BungieService} from '../core/bungie.service';
 import {CoreModule} from '../core/core.module';
 import {DestinyActivityModeType, DestinyComponentType, ProgressionHash} from '../core/bungie.enums';
 import {forkJoin, Observable} from 'rxjs';
-import {DestinyCharacter} from '../core/bungie.model';
+import {DestinyCharacterComponent} from '../core/bungie.model';
 
 @Injectable({
   providedIn: CoreModule
@@ -57,7 +57,7 @@ export class CrucibleService {
     );
   }
 
-  getGuardians(player: string): Observable<DestinyCharacter> {
+  getGuardians(player: string): Observable<DestinyCharacterComponent> {
     return this.bungie.getMemberId(player).pipe(
       mergeMap(id => this.bungie.getProfile(id)),
       tap(rsp => this.membershipId = rsp.profile.data.userInfo.membershipId),

@@ -3,8 +3,8 @@ import {CrucibleService} from '../crucible.service';
 import {BungieService} from '../../core/bungie.service';
 import {filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {DestinyCharacter} from '../../core/bungie.model';
-import {DestinyActivityModeType, DestinyClassType} from '../../core/bungie.enums';
+import {DestinyCharacterComponent} from '../../core/bungie.model';
+import {DestinyActivityModeType, DestinyClass} from '../../core/bungie.enums';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -14,7 +14,7 @@ import {Observable} from 'rxjs';
 })
 export class CrucibleOverviewComponent implements OnInit {
   username: string;
-  guardians: DestinyCharacter[] = [];
+  guardians: DestinyCharacterComponent[] = [];
   stats: { characterId: string, stats: any }[] = [];
   avgKdAcrossCharacters: Observable<string>;
 
@@ -46,11 +46,11 @@ export class CrucibleOverviewComponent implements OnInit {
     ).subscribe();
   }
 
-  getGuardianClass(classType: DestinyClassType) {
+  getGuardianClass(classType: DestinyClass) {
     switch (classType) {
-      case DestinyClassType.Hunter: return 'Hunter';
-      case DestinyClassType.Titan: return 'Titan';
-      case DestinyClassType.Warlock: return 'Warlock';
+      case DestinyClass.Hunter: return 'Hunter';
+      case DestinyClass.Titan: return 'Titan';
+      case DestinyClass.Warlock: return 'Warlock';
       default: return 'Unknown';
     }
   }

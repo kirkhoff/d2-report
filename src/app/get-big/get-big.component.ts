@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {DestinyComponentType} from '../core/bungie.enums';
 import {HttpClient} from '@angular/common/http';
+import {DestinyCharacterComponent, DestinyProfileResponse} from '../core/bungie.model';
 
 @Component({
   selector: 'dr-get-big',
@@ -11,6 +12,9 @@ import {HttpClient} from '@angular/common/http';
   templateUrl: './get-big.component.html'
 })
 export class GetBigComponent implements OnInit {
+  characters: DestinyCharacterComponent[];
+  profile: DestinyProfileResponse;
+
   constructor(
     private bungie: BungieService,
     private http: HttpClient,
@@ -32,11 +36,11 @@ export class GetBigComponent implements OnInit {
           DestinyComponentType.Characters,
           DestinyComponentType.ProfileInventories
         ]
-      }))
+      })),
+      tap(rsp => this.profile = rsp),
+      map(rsp => rsp.profile.data.characterIds.map(id => rsp.characters.data[id])),
+      tap(characters => this.characters = characters)
     )
       .subscribe(console.log);
-
-    const manifestUrl = 'https://destiny.plumbing/en/raw/DestinyActivityTypeDefinition.json';
-    this.http.get(manifestUrl).subscribe(console.log);
   }
 }
