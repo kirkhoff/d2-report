@@ -2,25 +2,27 @@
 
 :host
   margin-top 1em
-header
-  align-items center
+.page-header
+  align-items flex-end
   display flex
   justify-content space-between
   .avg-kd
-    color clr-grey
+    color clr-secondary
+    font-size .6em
+    font-weight 500
     text-transform uppercase
     .sm
-      color lighten(clr-grey, 50%)
-      margin-right 1em
-h3
-  color clr-tertiary
-  font-size 1.5em
-  font-weight 700
-  margin 1em 0
+      color clr-white
+      font-weight 400
+      margin-right .8em
 section
   margin-top 1em
   &:first-child
     margin-top 0
+  dr-character
+    margin-bottom 10px
+    margin-left auto
+    margin-right auto
 h4
   background clr-secondary
   color clr-grey
@@ -30,6 +32,7 @@ h4
   padding-bottom 1em
   padding-top 1em
 .guardian-stats
+  background #fff
   width 100%
   tr:first-child
     background lighten(clr-grey, 80%)

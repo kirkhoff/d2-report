@@ -1,12 +1,12 @@
 <ng-container *ngIf="username; else shaxxQuote">
-  <header class="container">
+  <header class="container page-header">
     <h3>{{username}}</h3>
     <div class="avg-kd" *ngIf="avgKdAcrossCharacters | async as kd"><span class="sm">Avg. KD: </span>{{kd}}</div>
   </header>
 
   <ng-container *ngIf="guardians && guardians.length > 0; else loading">
     <section *ngFor="let g of guardians">
-      <h4 class="container">{{getGuardianClass(g.classType)}}</h4>
+      <dr-character [data]="g"></dr-character>
       <div class="container">
         <table class="guardian-stats">
           <tr>

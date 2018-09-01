@@ -1,11 +1,10 @@
 <ng-container *ngIf="username; else shaxxQuote">
   <div class="container">
-    <header class="searched-player">
+    <header class="searched-player page-header">
       <h3>
         {{username}}'s
         <div class="sm">most recent carnage report</div>
       </h3>
-
     </header>
 
     <ng-container *ngIf="fireteam && fireteam.length > 0; else loading">

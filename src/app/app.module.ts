@@ -28,6 +28,9 @@ const routes: Routes = [
   {
     path: 'crucible',
     component: CrucibleComponent,
+    data: {
+      title: 'Crucible'
+    },
     children: [
       {
         path: '',
