@@ -14,6 +14,7 @@ import {DestinyCharacterComponent, DestinyProfileResponse} from '../core/bungie.
 export class GetBigComponent implements OnInit {
   characters: DestinyCharacterComponent[];
   profile: DestinyProfileResponse;
+  showAllCharacters = false;
 
   constructor(
     private bungie: BungieService,
@@ -39,6 +40,9 @@ export class GetBigComponent implements OnInit {
       })),
       tap(rsp => this.profile = rsp),
       map(rsp => rsp.profile.data.characterIds.map(id => rsp.characters.data[id])),
+      map(characters => characters.sort((a, b) =>
+        a.dateLastPlayed === b.dateLastPlayed ? 0 :
+          a.dateLastPlayed > b.dateLastPlayed ? -1 : 1)),
       tap(characters => this.characters = characters)
     )
       .subscribe(console.log);

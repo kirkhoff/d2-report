@@ -1,15 +1,32 @@
 <dr-search></dr-search>
 
 <section class="container character-overview">
-  <h3>Characters</h3>
-  <dr-character class="character" *ngFor="let c of characters" [data]="c"></dr-character>
+  <div class="characters" [class.show-all]="showAllCharacters">
+    <dr-character class="character"
+                  *ngFor="let c of characters; let i = index"
+                  [data]="c"
+                  [class.active]="i === 0"></dr-character>
+  </div>
+  <div class="mobile-control">
+    <button type="button"
+            mat-flat-button
+            color="primary"
+            (click)="showAllCharacters = !showAllCharacters">
+      {{showAllCharacters ? 'Show Active Character' : 'Show All'}}
+    </button>
+  </div>
 </section>
 
 <section class="container">
   <h3>Up Next</h3>
+  <p>An efficient path to higher power.</p>
 
   <!-- Get to 50 -->
-  <h4>Get to 50</h4>
+  <h4><mat-icon>gps_fixed</mat-icon>Get to 50</h4>
+  <p class="reason">
+    Before you hit 50, you'll want to avoid doing activities that can grant
+    powerful gear, unless you're in danger of those activities resetting.
+  </p>
   <ul>
     <li>Public Events</li>
     <li>Story Missions</li>
