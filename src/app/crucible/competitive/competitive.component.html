@@ -1,6 +1,6 @@
 <dr-search>
-  <div class="dark-theme">
-    <mat-form-field class="game-mode-select">
+  <div>
+    <mat-form-field class="game-mode-select" color="accent">
       <mat-select placeholder="Game mode" [formControl]="modeSelectCtrl" (selectionChange)="changeMode($event)">
         <mat-option *ngFor="let o of options" [value]="o.value">
           {{o.label}}

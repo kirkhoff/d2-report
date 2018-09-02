@@ -82,7 +82,7 @@ $typography: mat-typography-config(
   $body-1: mat-typography-level(14px, 1.3, 500)
 );
 
-@include angular-material-theme($light-theme);
+@include angular-material-theme($dark-theme);
 @include angular-material-typography($typography);
 
 .dark-theme {

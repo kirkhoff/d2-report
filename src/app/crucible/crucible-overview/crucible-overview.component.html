@@ -7,40 +7,34 @@
   </header>
 
   <ng-container *ngIf="guardians && guardians.length > 0; else loading">
-    <section *ngFor="let g of guardians">
+    <section *ngFor="let g of guardians" class="container">
       <dr-character [data]="g"></dr-character>
-      <div class="container">
-        <table class="guardian-stats">
-          <tr>
-            <th>Crucible Mode</th>
-            <th>KD</th>
-          </tr>
-          <tr>
-            <td class="label">All PvP</td>
-            <td class="value">{{getKd(g.characterId, 'allPvP')}}</td>
-          </tr>
-          <tr>
-            <td class="label">Countdown</td>
-            <td class="value">{{getKd(g.characterId, 'countdown')}}</td>
-          </tr>
-          <tr>
-            <td class="label">Survival</td>
-            <td class="value">{{getKd(g.characterId, 'survival')}}</td>
-          </tr>
-          <tr>
-            <td class="label">Iron Banner</td>
-            <td class="value">{{getKd(g.characterId, 'ironBanner')}}</td>
-          </tr>
-          <tr>
-            <td class="label">Clash</td>
-            <td class="value">{{getKd(g.characterId, 'clash')}}</td>
-          </tr>
-          <tr>
-            <td class="label">Control</td>
-            <td class="value">{{getKd(g.characterId, 'control')}}</td>
-          </tr>
-        </table>
-      </div>
+      <table class="guardian-stats">
+        <tr>
+          <td class="label">All PvP</td>
+          <td class="value">{{getKd(g.characterId, 'allPvP')}}</td>
+        </tr>
+        <tr>
+          <td class="label">Countdown</td>
+          <td class="value">{{getKd(g.characterId, 'countdown')}}</td>
+        </tr>
+        <tr>
+          <td class="label">Survival</td>
+          <td class="value">{{getKd(g.characterId, 'survival')}}</td>
+        </tr>
+        <tr>
+          <td class="label">Iron Banner</td>
+          <td class="value">{{getKd(g.characterId, 'ironBanner')}}</td>
+        </tr>
+        <tr>
+          <td class="label">Clash</td>
+          <td class="value">{{getKd(g.characterId, 'clash')}}</td>
+        </tr>
+        <tr>
+          <td class="label">Control</td>
+          <td class="value">{{getKd(g.characterId, 'control')}}</td>
+        </tr>
+      </table>
     </section>
   </ng-container>
 </ng-container>
