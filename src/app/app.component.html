@@ -1,9 +1,9 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav class="mobile-nav" #sidenav mode="push" position="end">
     <nav>
-      <a routerLink="/big" routerLinkActive="active" (click)="sidenav.close()">Get Big Quick</a>
-      <a routerLink="/crucible" routerLinkActive="active" (click)="sidenav.close()">Crucible</a>
-      <a routerLink="/fireteam" routerLinkActive="active" (click)="sidenav.close()">Fireteam</a>
+      <a routerLink="/big" routerLinkActive="active" queryParamsHandling="merge" (click)="sidenav.close()">Get Big Quick</a>
+      <a routerLink="/crucible" routerLinkActive="active" queryParamsHandling="merge" (click)="sidenav.close()">Crucible</a>
+      <!--<a routerLink="/fireteam" routerLinkActive="active" queryParamsHandling="merge" (click)="sidenav.close()">Fireteam</a>-->
     </nav>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -16,7 +16,7 @@
         <nav class="desktop-nav">
           <a routerLink="/big" routerLinkActive="active">Get Big Quick</a>
           <a routerLink="/crucible" routerLinkActive="active">Crucible</a>
-          <a routerLink="/fireteam" routerLinkActive="active">Fireteam</a>
+          <!--<a routerLink="/fireteam" routerLinkActive="active">Fireteam</a>-->
         </nav>
         <button class="sidenav-toggle" (click)="sidenav.open()">
           <mat-icon>menu</mat-icon>

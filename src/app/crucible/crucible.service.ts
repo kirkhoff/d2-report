@@ -15,27 +15,15 @@ export class CrucibleService {
 
   constructor(private bungie: BungieService) {}
 
-  getMostRecentActivity(player: string) {
+  getMostRecentActivity(player: string, modes: DestinyActivityModeType[]) {
     return this.bungie.getMemberId(player).pipe(
       mergeMap(id => this.bungie.getProfile(id)),
       tap(rsp => this.membershipId = rsp.profile.data.userInfo.membershipId),
       mergeMap(rsp => rsp.profile.data.characterIds),
-      tap(id => {
-        this.bungie.getHistoricalStats(this.membershipId, id, {
-          modes: [
-            DestinyActivityModeType.Survival,
-            DestinyActivityModeType.Countdown,
-            DestinyActivityModeType.Control,
-            DestinyActivityModeType.Clash,
-            DestinyActivityModeType.IronBanner
-          ]
-        }).subscribe();
-      }),
-      map(id => forkJoin(
-        this.bungie.getActivityHistory(this.membershipId, id, DestinyActivityModeType.Survival),
-        this.bungie.getActivityHistory(this.membershipId, id, DestinyActivityModeType.Countdown)
-      ).pipe(
-        map(arr => arr.map(a => a.activities)),
+      map(id => forkJoin(modes.map(mode =>
+        this.bungie.getActivityHistory(this.membershipId, id, mode)
+      )).pipe(
+        map(arr => arr.map(a => a.activities || [])),
         map(arr => ({
           characterId: id,
           activities: arr[0].concat(arr[1]).sort((a, b) => (a.period === b.period) ? 0 : (a.period < b.period) ? 1 : -1)
@@ -73,5 +61,17 @@ export class CrucibleService {
       map(rsp => rsp.characterProgressions.data[characterId].progressions[ProgressionHash.GloryRank].currentProgress),
       take(1)
     );
+  }
+
+  getReadableStringForMode(mode: DestinyActivityModeType): string {
+    switch (mode) {
+      case DestinyActivityModeType.AllPvP: return 'All PvP';
+      case DestinyActivityModeType.Survival: return 'Survival';
+      case DestinyActivityModeType.Clash: return 'Clash';
+      case DestinyActivityModeType.Control: return 'Control';
+      case DestinyActivityModeType.Countdown: return 'Countdown';
+      case DestinyActivityModeType.Gambit: return 'Gambit';
+      default: return 'Unknown';
+    }
   }
 }

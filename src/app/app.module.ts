@@ -34,11 +34,17 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: CrucibleOverviewComponent
+        component: CrucibleOverviewComponent,
+        data: {
+          title: 'Guardian Overview'
+        }
       },
       {
         path: 'competitive',
-        component: CompetitiveComponent
+        component: CompetitiveComponent,
+        data: {
+          title: 'Fireteam Report'
+        }
       }
     ]
   },

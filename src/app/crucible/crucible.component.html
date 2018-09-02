@@ -1,10 +1,8 @@
 <nav class="sub-nav">
   <div class="container">
-    <a routerLink="/crucible" [queryParams]="{ player: playerParam}" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
-    <a routerLink="/crucible/competitive" [queryParams]="{ player: playerParam}" routerLinkActive="active">Competitive</a>
+    <a routerLink="/crucible" [queryParams]="{ player: playerParam}" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Guardian</a>
+    <a routerLink="/crucible/competitive" [queryParams]="{ player: playerParam}" routerLinkActive="active">Fireteam</a>
   </div>
 </nav>
-
-<dr-search></dr-search>
 
 <router-outlet></router-outlet>

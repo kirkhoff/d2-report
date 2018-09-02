@@ -1,6 +1,7 @@
 @require 'vars.styl'
 
 :host
+  background-color clr-grey
   background-repeat no-repeat
   background-size cover
   box-sizing border-box
@@ -19,7 +20,8 @@
   flex 1
   justify-content space-between
   line-height 1
-  padding 9px 15px 9px 75px
+  padding 9px 15px 9px 80px
+  position relative
   text-shadow 0 1px .1px rgba(#000, .8)
   width 100%
   > *
@@ -29,7 +31,15 @@
     justify-content space-between
     &:last-child
       align-items flex-end
-  .class
+  .emblem-icon
+    border-radius 4px
+    height 59px
+    left 8px
+    overflow hidden
+    position absolute
+    top 8px
+  .class,
+  .name
     font-size 1.6em
     font-weight 500
   .race-gender

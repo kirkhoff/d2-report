@@ -3,13 +3,18 @@
 :host
   box-sizing border-box
   display block
-  padding 1em 0
+
+.game-mode-select
+  margin-top 15px
+  min-width 250px
+
 header.searched-player
   align-items center
   display flex
   justify-content flex-start
   .sm
     color clr-secondary
+    display block
     font-size .55em
     font-weight 500
     margin-top 5px
@@ -20,17 +25,6 @@ header.searched-player
   margin-bottom 1em
   overflow hidden
   width 100%
-  header
-    align-items center
-    background clr-secondary
-    display flex
-    justify-content space-between
-    padding 1em
-  h4 > a
-    color clr-grey !important
-    font-size 1.5em
-    font-weight 700
-    text-decoration none
   .character-info
     stat-font()
     color darken(clr-secondary, 50%)

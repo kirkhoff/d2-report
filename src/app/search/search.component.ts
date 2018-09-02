@@ -27,7 +27,11 @@ export class SearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Set the title from route data
     this.route.data.subscribe(({ title }) => this.title = title);
+
+    // Pre-fill search input with query param if one exists
+    this.route.queryParams.subscribe(({ player }) => this.playerCtrl.setValue(player));
 
     // Observable to search for users on keypress (debounce used in service to prevent unnecessary API calls)
     this.bungie

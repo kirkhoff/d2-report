@@ -20,6 +20,7 @@ export interface RawBungieManifest {
   DestinyRaceDefinition: string;
   DestinyGenderDefinition: string;
   DestinyClassDefinition: string;
+  DestinyInventoryItemDefinition: string;
 }
 
 export interface DestinyRaceDefinition {
@@ -51,4 +52,22 @@ export interface DestinyDisplayPropertiesDefinition {
   name: string;
   icon: string;
   hasIcon: boolean;
+}
+
+export interface DestinyInventoryItemDefinition {
+  displayProperties: DestinyDisplayPropertiesDefinition;
+  secondaryIcon: string;
+  secondaryOverlay: string;
+  secondarySpecial: string;
+  backgroundColor: DestinyColor;
+  screenshot: string;
+  itemDisplayName: string;
+  // TODO fill this out (there's a lot)
+}
+
+export interface DestinyColor {
+  red: number;
+  green: number;
+  blue: number;
+  alpha: number;
 }

@@ -132,6 +132,9 @@ export interface Player {
   clanName: string;
   clanTag: string;
   emblemHash: number;
+  genderHash: number;
+  classHash: number;
+  raceHash: number;
 }
 
 export interface PostGameCarnageEntry {

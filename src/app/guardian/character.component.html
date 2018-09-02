@@ -1,17 +1,19 @@
 <div class="character-info">
-  <div>
-    <div class="class">{{characterClass | async}}</div>
+  <img class="emblem-icon" *ngIf="emblemIcon" [src]="'https://bungie.net' + emblemIcon" alt="">
+  <div [ngSwitch]="!!name">
+    <div class="name" *ngSwitchCase="true">{{name}}</div>
+    <div class="class" *ngSwitchDefault>{{characterClass | async}}</div>
     <div class="race-gender">{{race | async}} {{gender | async}}</div>
   </div>
   <div>
-    <div class="light-level">{{data.light}}</div>
+    <div class="light-level">{{data?.light || lightLevel}}</div>
     <div class="level">
       <span class="label">LVL </span>
-      <span class="value">{{data.levelProgression.level}}</span>
-      <span class="level-cap"> / {{data.levelProgression.levelCap}}</span>
+      <span class="value">{{data?.levelProgression.level || level}}</span>
+      <span class="level-cap" *ngIf="data"> / {{data.levelProgression.levelCap}}</span>
     </div>
   </div>
 </div>
-<div class="level-progress-bar">
+<div class="level-progress-bar" *ngIf="data">
   <span class="progress" [style.width]="data.percentToNextLevel + '%'"></span>
 </div>

@@ -5,7 +5,7 @@ import {
   BungieManifestResponse,
   DestinyClassDefinition,
   DestinyDefinition,
-  DestinyGenderDefinition,
+  DestinyGenderDefinition, DestinyInventoryItemDefinition,
   DestinyRaceDefinition,
   RawBungieManifest
 } from './manifest.model';
@@ -40,6 +40,12 @@ export class ManifestService {
   getClass(): Observable<DestinyDefinition<DestinyClassDefinition>> {
     return this.getManifest().pipe(
       switchMap(manifest => this.http.get<DestinyDefinition<DestinyClassDefinition>>(manifest.DestinyClassDefinition))
+    );
+  }
+
+  getInventoryItem(): Observable<DestinyDefinition<DestinyInventoryItemDefinition>> {
+    return this.getManifest().pipe(
+      switchMap(manifest => this.http.get<DestinyDefinition<DestinyInventoryItemDefinition>>(manifest.DestinyInventoryItemDefinition))
     );
   }
 }

@@ -1,40 +1,42 @@
+<dr-search>
+  <div class="dark-theme">
+    <mat-form-field class="game-mode-select">
+      <mat-select placeholder="Game mode" [formControl]="modeSelectCtrl" (selectionChange)="changeMode($event)">
+        <mat-option *ngFor="let o of options" [value]="o.value">
+          {{o.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</dr-search>
+
 <ng-container *ngIf="username; else shaxxQuote">
   <div class="container">
     <header class="searched-player page-header">
       <h3>
         {{username}}'s
-        <div class="sm">most recent carnage report</div>
+        <span class="sm">most recent carnage report</span>
       </h3>
     </header>
 
     <ng-container *ngIf="fireteam && fireteam.length > 0; else loading">
       <section *ngFor="let guardian of fireteam" class="guardian">
-        <header>
-          <h4>
-            <a routerLink="/crucible/competitive"
-               [queryParams]="{ player: guardian.player.destinyUserInfo.displayName }">
-              {{guardian.player.destinyUserInfo.displayName}}
-            </a>
-          </h4>
-          <div class="character-info">{{guardian.player.characterClass}}</div>
-        </header>
-
+        <dr-character class="character"
+                      [name]="guardian.player.destinyUserInfo.displayName"
+                      [emblemIcon]="guardian.player.destinyUserInfo.iconPath"
+                      [level]="guardian.player.characterLevel"
+                      [classHash]="guardian.player.classHash"
+                      [raceHash]="guardian.player.raceHash"
+                      [genderHash]="guardian.player.genderHash"
+                      [lightLevel]="guardian.player.lightLevel"></dr-character>
         <table class="guardian-stats">
           <tr class="glory-rank">
             <td class="label">Glory Rank</td>
             <td class="value">{{getGloryRank(guardian.characterId)}}</td>
           </tr>
-          <tr>
-            <td class="label">Countdown</td>
-            <td class="value">{{getKd(guardian.characterId, 'countdown')}} <span class="sm">KD</span></td>
-          </tr>
-          <tr>
-            <td class="label">Survival</td>
-            <td class="value">{{getKd(guardian.characterId, 'survival')}} <span class="sm">KD</span></td>
-          </tr>
-          <tr>
-            <td class="label">All PvP</td>
-            <td class="value">{{getKd(guardian.characterId, 'allPvP')}} <span class="sm">KD</span></td>
+          <tr *ngFor="let mode of modeSelectCtrl.value">
+            <td class="label">{{crucible.getReadableStringForMode(mode)}}</td>
+            <td class="value">{{getKd(guardian.characterId, mode)}} <span class="sm">KD</span></td>
           </tr>
         </table>
       </section>
