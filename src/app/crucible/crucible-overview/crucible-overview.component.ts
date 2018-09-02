@@ -46,15 +46,6 @@ export class CrucibleOverviewComponent implements OnInit {
     ).subscribe();
   }
 
-  getGuardianClass(classType: DestinyClass) {
-    switch (classType) {
-      case DestinyClass.Hunter: return 'Hunter';
-      case DestinyClass.Titan: return 'Titan';
-      case DestinyClass.Warlock: return 'Warlock';
-      default: return 'Unknown';
-    }
-  }
-
   getKd(characterId: string, mode: string): string {
     const character = this.stats.find(x => x.characterId === characterId);
     return character ? character.stats[mode].allTime.killsDeathsRatio.basic.displayValue : '';

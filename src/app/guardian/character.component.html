@@ -1,9 +1,14 @@
 <div class="character-info">
   <img class="emblem-icon" *ngIf="emblemIcon" [src]="'https://bungie.net' + emblemIcon" alt="">
   <div [ngSwitch]="!!name">
-    <div class="name" *ngSwitchCase="true">{{name}}</div>
-    <div class="class" *ngSwitchDefault>{{characterClass | async}}</div>
-    <div class="race-gender">{{race | async}} {{gender | async}}</div>
+    <ng-container *ngSwitchCase="true">
+      <div class="name">{{name}}</div>
+      <div class="small-class">{{characterClass | async}}</div>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <div class="class">{{characterClass | async}}</div>
+      <div class="race-gender">{{race | async}} {{gender | async}}</div>
+    </ng-container>
   </div>
   <div>
     <div class="light-level">{{data?.light || lightLevel}}</div>

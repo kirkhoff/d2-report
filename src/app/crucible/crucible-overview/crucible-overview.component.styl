@@ -35,9 +35,15 @@ h4
   width 100%
   th,
   td
+    color clr-black
     padding 10px
-    text-align left
     vertical-align middle
+    &:first-child
+      text-align left
+    &:not(:first-child)
+      text-align right
+    .sm
+      color lighten(clr-grey, 50%)
   tr:nth-child(even)
     background lighten(clr-secondary, 90%)
 .label
