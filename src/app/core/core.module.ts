@@ -1,7 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { AuthInterceptor } from './auth.interceptor';
+import {CommonModule} from '@angular/common';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {NgModule} from '@angular/core';
+import {AuthInterceptor} from './auth.interceptor';
+import {CacheInterceptor} from './cache.interceptor';
 
 @NgModule({
   imports: [
@@ -12,6 +13,11 @@ import { AuthInterceptor } from './auth.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
       multi: true
     }
   ]
