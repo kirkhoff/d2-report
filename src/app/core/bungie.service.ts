@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
@@ -22,6 +22,7 @@ import {
 } from './bungie.enums';
 
 export const bungie = 'https://www.bungie.net';
+export const clientId = '1853';
 
 @Injectable({
   providedIn: CoreModule
@@ -40,6 +41,27 @@ export class BungieService {
     const params = new URLSearchParams();
     Object.keys(options).forEach(key => params.set(key, options[key]));
     return `?${params.toString()}`;
+  }
+
+  // Authentication endpoints
+
+  authenticate(authCode: string): Observable<any> {
+    console.log('authenticating');
+    const url = `${bungie}/Platform/App/OAuth/Token`;
+    const formData = new FormData();
+    formData.append('client_id', clientId);
+    formData.append('grant_type', 'authorization_code');
+    formData.append('code', authCode);
+    const body = `client_id=${clientId}&grant_type=authorization_code&code=${authCode}`;
+
+    const data = {
+      'client_id': clientId,
+      'grant_type': 'authorization_code',
+      'code': authCode
+    };
+    const headers = new HttpHeaders();
+    headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    return this.http.post(url, body, { headers });
   }
 
   // Forum endpoints

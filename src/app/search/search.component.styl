@@ -1,24 +1,7 @@
 @require 'grid.styl'
 
 :host
-  background clr-grey-light
-  border-bottom 1px solid darken(clr-primary-dark, 40%)
-  box-shadow 2px 0 5px 0 rgba(#000, .3)
   display block
-  justify-content center
-  padding 1.2em 0
-  width 100%
-  .container
-    align-items center
-    display flex
-    justify-content space-between
-
-h2
-  color rgba(clr-white, .4)
-  font-size 2em
-  font-weight 400
-  line-height 1
-  text-transform uppercase
 
 form
   color clr-white
@@ -27,9 +10,3 @@ mat-form-field
   margin-bottom -1.25em
   min-width 250px
 
-+mobile-only()
-  .container
-    flex-direction column
-    justify-content center
-  h2
-    margin-bottom .5em

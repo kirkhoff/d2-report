@@ -15,9 +15,14 @@ import {MomentModule} from 'ngx-moment';
 import {SharedModule} from './shared/shared.module';
 import {GetBigComponent} from './get-big/get-big.component';
 import {SearchComponent} from './search/search.component';
-import {CharacterComponent} from './guardian/character.component';
+import {CharacterComponent} from './character/character.component';
+import {OauthComponent} from './oauth/oauth.component';
 
 const routes: Routes = [
+  {
+    path: 'oauth',
+    component: OauthComponent
+  },
   {
     path: 'big',
     component: GetBigComponent,
@@ -67,6 +72,7 @@ const routes: Routes = [
     CrucibleOverviewComponent,
     FireteamComponent,
     GetBigComponent,
+    OauthComponent,
     SearchComponent
   ],
   imports: [

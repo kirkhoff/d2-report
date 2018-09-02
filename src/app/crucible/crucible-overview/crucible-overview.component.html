@@ -1,7 +1,7 @@
 <dr-search></dr-search>
 
 <ng-container *ngIf="username; else shaxxQuote">
-  <header class="container page-header">
+  <header class="container section-header">
     <h3>{{username}}</h3>
     <div class="avg-kd" *ngIf="avgKdAcrossCharacters | async as kd"><span class="sm">Avg. KD: </span>{{kd}}</div>
   </header>

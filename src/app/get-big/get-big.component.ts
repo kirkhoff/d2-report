@@ -34,10 +34,12 @@ export class GetBigComponent implements OnInit {
           DestinyComponentType.CharacterProgressions,
           DestinyComponentType.CharacterActivities,
           DestinyComponentType.CharacterEquipment,
+          DestinyComponentType.CharacterInventories,
           DestinyComponentType.Characters,
           DestinyComponentType.ProfileInventories
         ]
       })),
+      tap(console.log),
       tap(rsp => this.profile = rsp),
       map(rsp => rsp.profile.data.characterIds.map(id => rsp.characters.data[id])),
       map(characters => characters.sort((a, b) =>

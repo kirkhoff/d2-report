@@ -40,7 +40,7 @@ h1, h2, h3, h4, h5, h6
   margin-top 3em
   text-align center
 
-.page-header
+.section-header
   border-bottom 1px solid clr-secondary
   color clr-white
   font-size 2em
@@ -49,3 +49,30 @@ h1, h2, h3, h4, h5, h6
   margin 40px 0 10px
   padding-bottom 10px
   width 100%
+
+.page-header
+  background clr-grey-light
+  border-bottom 1px solid darken(clr-primary-dark, 40%)
+  box-shadow 2px 0 5px 0 rgba(#000, .3)
+  display block
+  justify-content center
+  padding 1.2em 0
+  width 100%
+  .container
+    align-items center
+    display flex
+    justify-content space-between
+  h2
+    color rgba(clr-white, .4)
+    font-size 2em
+    font-weight 400
+    line-height 1
+    text-transform uppercase
+
++mobile-only()
+  .page-header
+    .container
+      flex-direction column
+      justify-content center
+    h2
+      margin-bottom .5em
