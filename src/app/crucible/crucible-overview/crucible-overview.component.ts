@@ -30,7 +30,7 @@ export class CrucibleOverviewComponent implements OnInit {
       tap(({ displayName }) => this.avgKdAcrossCharacters = this.crucible.getKD(displayName)),
       switchMap(({ displayName }) => this.crucible.getGuardians(displayName)),
       tap(guardian => this.guardians.push(guardian)),
-      mergeMap(guardian => this.bungie.getHistoricalStats(guardian.membershipId, guardian.characterId, {
+      mergeMap(guardian => this.bungie.getHistoricalStats(guardian.membership_id, guardian.characterId, {
         modes: [
           DestinyActivityModeType.Survival,
           DestinyActivityModeType.Countdown,
@@ -48,6 +48,7 @@ export class CrucibleOverviewComponent implements OnInit {
 
   getKd(characterId: string, mode: string): string {
     const character = this.stats.find(x => x.characterId === characterId);
-    return character ? character.stats[mode].allTime.killsDeathsRatio.basic.displayValue : '';
+    return character && character.stats && character.stats[mode] ?
+      character.stats[mode].allTime.killsDeathsRatio.basic.displayValue : '';
   }
 }

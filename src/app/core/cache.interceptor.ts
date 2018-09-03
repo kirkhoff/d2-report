@@ -17,7 +17,8 @@ export class CacheInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
     const cachedResponse = this.cache.get(request.urlWithParams);
-    return cachedResponse ? of(cachedResponse) : this.sendAndCache(request, next);
+    return this.sendAndCache(request, next);
+    // return cachedResponse ? of(cachedResponse) : this.sendAndCache(request, next);
   }
 
   private sendAndCache(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

@@ -1,15 +1,17 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 
 import {
   AccountStats,
-  DestinyProfileResponse,
   DestinyCharacterResponse,
+  DestinyProfileResponse,
+  GeneralUser,
   PostGameCarnageReportData,
   SearchResultOfFireteamSummary,
-  UserInfoCard
+  UserInfoCard,
+  UserMembershipData
 } from './bungie.model';
 import {CoreModule} from './core.module';
 import {
@@ -22,16 +24,18 @@ import {
 } from './bungie.enums';
 
 export const bungie = 'https://www.bungie.net';
-export const clientId = '1853';
+export const clientId = '24532'; // Local
+// export const clientId = '1853'; // Prod
 
 @Injectable({
   providedIn: CoreModule
 })
 export class BungieService {
-  platform: MembershipType = MembershipType.All;
+  private _membershipType: MembershipType;
 
   constructor(private http: HttpClient) {
-    this.platform = MembershipType.PSN; // TODO: Allow the user to choose their own platform
+    const membershipTypeStorageValue = localStorage.getItem('membershipType');
+    this._membershipType = membershipTypeStorageValue ? parseInt(membershipTypeStorageValue, 10) : MembershipType.All;
   }
 
   private getQueryString(options: {}): string {
@@ -43,25 +47,13 @@ export class BungieService {
     return `?${params.toString()}`;
   }
 
-  // Authentication endpoints
+  set membershipType(value: MembershipType) {
+    localStorage.setItem('membershipType', value.toString());
+    this._membershipType = value;
+  }
 
-  authenticate(authCode: string): Observable<any> {
-    console.log('authenticating');
-    const url = `${bungie}/Platform/App/OAuth/Token`;
-    const formData = new FormData();
-    formData.append('client_id', clientId);
-    formData.append('grant_type', 'authorization_code');
-    formData.append('code', authCode);
-    const body = `client_id=${clientId}&grant_type=authorization_code&code=${authCode}`;
-
-    const data = {
-      'client_id': clientId,
-      'grant_type': 'authorization_code',
-      'code': authCode
-    };
-    const headers = new HttpHeaders();
-    headers.set('Content-Type', 'application/x-www-form-urlencoded');
-    return this.http.post(url, body, { headers });
+  get membershipType(): MembershipType {
+    return this._membershipType;
   }
 
   // Forum endpoints
@@ -79,6 +71,21 @@ export class BungieService {
   }
 
   // User endpoints
+
+  getBungieNetUserById(id: number | string): Observable<GeneralUser> {
+    const url = `${bungie}/Platform/User/GetBungieNetUserById/${id}/`;
+    return this.http.get<GeneralUser>(url);
+  }
+
+  getMembershipDataById(membershipId: number | string): Observable<UserMembershipData> {
+    const url = `${bungie}/Platform/User/GetMembershipsById/${membershipId}/${this._membershipType}/`;
+    return this.http.get<UserMembershipData>(url);
+  }
+
+  getMembershipsForCurrentUser(): Observable<UserMembershipData> {
+    const url = `${bungie}/Platform/User/GetMembershipsForCurrentUser/`;
+    return this.http.get<UserMembershipData>(url);
+  }
 
   searchUser(user: string | Observable<string>): Observable<any> {
     return (typeof user === 'string') ?
@@ -101,28 +108,28 @@ export class BungieService {
     return this.http.get<any>(url);
   }
 
-  searchPlayer(player: string): Observable<UserInfoCard[]> {
-    const url = `${bungie}/Platform/Destiny2/SearchDestinyPlayer/${this.platform}/${player}/?components=100`;
+  searchPlayer(player: string, membershipType = this.membershipType): Observable<UserInfoCard[]> {
+    const url = `${bungie}/Platform/Destiny2/SearchDestinyPlayer/${membershipType}/${player}/?components=100`;
     return this.http.get<UserInfoCard[]>(url);
   }
 
   getMembershipsById(id: string): Observable<UserInfoCard[]> {
-    const url = `${bungie}/Platform/User/GetMembershipsById/${id}/${this.platform}`;
+    const url = `${bungie}/Platform/User/GetMembershipsById/${id}/${this._membershipType}`;
     return this.http.get<UserInfoCard[]>(url);
   }
 
   getMemberId(player: string): Observable<string> {
-    const url = `${bungie}/d1/platform/Destiny/${this.platform}/Stats/GetMembershipIdByDisplayName/${player}/?components=100`;
+    const url = `${bungie}/d1/platform/Destiny/${this._membershipType}/Stats/GetMembershipIdByDisplayName/${player}/?components=100`;
     return this.http.get<string>(url).pipe();
   }
 
-  getProfile(destinyMembershipId: string, options = { components: [DestinyComponentType.Profiles] }): Observable<DestinyProfileResponse> {
-    const url = `${bungie}/Platform/Destiny2/${this.platform}/Profile/${destinyMembershipId}/${this.getQueryString(options)}`;
+  getProfile(destinyMembershipId: string, options = { components: [DestinyComponentType.Profiles] }, membershipType = this.membershipType): Observable<DestinyProfileResponse> {
+    const url = `${bungie}/Platform/Destiny2/${membershipType}/Profile/${destinyMembershipId}/${this.getQueryString(options)}`;
     return this.http.get<DestinyProfileResponse>(url);
   }
 
   getCharacter(destinyMembershipId: string, characterId: string, options?: any): Observable<DestinyCharacterResponse> {
-    const url = `${bungie}/Platform/Destiny2/${this.platform}/Profile/${destinyMembershipId}/Character/${characterId}/${this.getQueryString(options)}`;
+    const url = `${bungie}/Platform/Destiny2/${this._membershipType}/Profile/${destinyMembershipId}/Character/${characterId}/${this.getQueryString(options)}`;
     return this.http.get<DestinyCharacterResponse>(url);
   }
 
@@ -132,33 +139,33 @@ export class BungieService {
   }
 
   getHistoricalStats(destinyMembershipId: string, characterId: string, options?: any): Observable<any> {
-    const url = `${bungie}/Platform/Destiny2/${this.platform}/Account/${destinyMembershipId}/Character/${characterId}/Stats/${this.getQueryString(options)}`;
+    const url = `${bungie}/Platform/Destiny2/${this._membershipType}/Account/${destinyMembershipId}/Character/${characterId}/Stats/${this.getQueryString(options)}`;
     return this.http.get<any>(url);
   }
 
   getHistoricalStatsForAccount(destinyMembershipId: string): Observable<AccountStats> {
-    const url = `${bungie}/Platform/Destiny2/${this.platform}/Account/${destinyMembershipId}/Stats/?components=${DestinyComponentType.Profiles}`;
+    const url = `${bungie}/Platform/Destiny2/${this._membershipType}/Account/${destinyMembershipId}/Stats/?components=${DestinyComponentType.Profiles}`;
     return this.http.get<AccountStats>(url);
   }
 
   getCharacterStats(destinyMembershipId: string, characterId: string): Observable<AccountStats> {
-    const url = `${bungie}/Platform/Destiny2/${this.platform}/Account/${destinyMembershipId}/Character/${characterId}/Stats/?components=${DestinyComponentType.Characters}`;
+    const url = `${bungie}/Platform/Destiny2/${this._membershipType}/Account/${destinyMembershipId}/Character/${characterId}/Stats/?components=${DestinyComponentType.Characters}`;
     return this.http.get<AccountStats>(url);
   }
 
   getLeaderboards(destinyMembershipId: string): Observable<any> {
-    const url = `${bungie}/Platform/Destiny2/${this.platform}/Account/${destinyMembershipId}/Stats/Leaderboards?components=${DestinyComponentType.Profiles}`;
+    const url = `${bungie}/Platform/Destiny2/${this._membershipType}/Account/${destinyMembershipId}/Stats/Leaderboards?components=${DestinyComponentType.Profiles}`;
     return this.http.get<any>(url);
   }
 
   getActivityHistory(destinyMembershipId: string, characterId: string, mode?: string | number): Observable<any> {
     const q = mode !== undefined ? `?mode=${mode}` : '';
-    const url = `${bungie}/Platform/Destiny2/${this.platform}/Account/${destinyMembershipId}/Character/${characterId}/Stats/Activities/${q}`;
+    const url = `${bungie}/Platform/Destiny2/${this._membershipType}/Account/${destinyMembershipId}/Character/${characterId}/Stats/Activities/${q}`;
     return this.http.get<any>(url);
   }
 
   getDestinyAggregateActivityStats(destinyMembershipId: string, characterId: string): Observable<any> {
-    const url = `${bungie}/Platform/Destiny2/${this.platform}/Account/${destinyMembershipId}/Character/${characterId}/Stats/AggregateActivityStats/`;
+    const url = `${bungie}/Platform/Destiny2/${this._membershipType}/Account/${destinyMembershipId}/Character/${characterId}/Stats/AggregateActivityStats/`;
     return this.http.get<any>(url);
   }
 }

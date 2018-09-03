@@ -17,6 +17,7 @@ import {GetBigComponent} from './get-big/get-big.component';
 import {SearchComponent} from './search/search.component';
 import {CharacterComponent} from './character/character.component';
 import {OauthComponent} from './oauth/oauth.component';
+import {OauthDialogComponent} from './oauth/oauth-dialog.component';
 
 const routes: Routes = [
   {
@@ -73,7 +74,11 @@ const routes: Routes = [
     FireteamComponent,
     GetBigComponent,
     OauthComponent,
+    OauthDialogComponent,
     SearchComponent
+  ],
+  entryComponents: [
+    OauthDialogComponent
   ],
   imports: [
     BrowserAnimationsModule,

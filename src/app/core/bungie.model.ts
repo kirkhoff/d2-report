@@ -6,6 +6,47 @@ export interface BungieResponse<T> {
   Response: T;
 }
 
+export interface TokenResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  membership_id: string;
+}
+
+// User
+
+export interface UserMembershipData {
+  destinyMemberships: UserInfoCard[];
+  bungieNetUser: GeneralUser;
+}
+
+export interface GeneralUser {
+  membershipId: number;
+  uniqueName: string;
+  normalizedName: string;
+  displayName: string;
+  profilePicture: number;
+  profileTheme: number;
+  userTitle: number;
+  successfulMessageFlags: number;
+  isDeleted: boolean;
+  about: string;
+  firstAccess?: string;
+  lastUpdate?: string;
+  psnDisplayName: string;
+  xboxDisplayName: string;
+  fbDisplayName: string;
+  showActivity?: boolean;
+  locale: string;
+  profilePicturePath: string;
+  profilePictureWidePath: string;
+  profileThemeName: string;
+  statusText: string;
+  statusDate: string;
+  profileBanExpire: string;
+  blizzardDisplayName: string;
+}
+
 export interface UserInfoCard {
   supplementalDisplayName: string;
   iconPath: string;

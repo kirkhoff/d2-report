@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {
   MatAutocompleteModule,
   MatButtonModule,
-  MatCardModule,
+  MatCardModule, MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule, MatSelectModule, MatSidenavModule,
@@ -13,6 +13,7 @@ import {CdkTableModule} from '@angular/cdk/table';
 const matModules = [
   MatButtonModule,
   MatAutocompleteModule,
+  MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,

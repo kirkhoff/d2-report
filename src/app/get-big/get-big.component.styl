@@ -1,80 +1,94 @@
 @require 'vars.styl'
 
-:host
+dr-get-big
   display block
 
-section
-  color clr-white
-  h4
-    align-items center
-    display flex
-    font-size 1.5em
-    font-weight 700
-    margin 15px 0 10px
-    mat-icon
+  .page-header
+    .membership
+      align-items center
+      color clr-white
+      display flex
+      font-size 1.2em
+    .display-name
+      margin-left .5em
+    .membership-select-field .mat-form-field-flex
+      align-items flex-end
+    .membership-icon
       margin-right .5em
-  p
-    margin-bottom 1em
-    &.reason
-      background clr-secondary
-      color clr-black
-      font-size .8em
-      padding .8em 1em
-  ul
-    margin 10px 0
-  li
-    font-size 1.1em
-    font-weight 500
-    margin .5em 0
-    padding-left 1em
 
-.character-overview
-  margin-top 40px
-  .characters
-    display flex
-  .character
-    cursor pointer
-    flex 1
-    margin 0 10px
+  section
+    color clr-white
+    h4
+      align-items center
+      display flex
+      font-size 1.5em
+      font-weight 700
+      margin 15px 0 10px
+      mat-icon
+        margin-right .5em
+    p
+      margin-bottom 1em
+      &.reason
+        background clr-secondary
+        color clr-black
+        font-size .8em
+        padding .8em 1em
+    ul
+      margin 10px 0
+    li
+      font-size 1.1em
+      font-weight 500
+      margin .5em 0
+      padding-left 1em
 
-+desktop-only()
   .character-overview
-    padding-left 0
-    padding-right 0
+    margin-top 40px
     .characters
-      justify-content space-between
+      display flex
     .character
-      &.active
-        pointer-events none
-      &:not(.active)
-        opacity .4
-        transform scale(.8)
-        transition all transition-time
-        &:hover
-          opacity .75
-          transform scale(.9)
-  .mobile-control
-    display none
+      cursor pointer
+      flex 1
+      margin 0 10px
+
+  +desktop-only()
+    .character-overview
+      padding-left 0
+      padding-right 0
+      .characters
+        justify-content space-between
+      .character
+        &.active
+          pointer-events none
+        &:not(.active)
+          opacity .4
+          transform scale(.8)
+          transition all transition-time
+          &:hover
+            opacity .75
+            transform scale(.9)
+    .mobile-control
+      display none
 
 +mobile-only()
-  .character-overview
-    display block
-    margin-top 10px
-    .characters
+  dr-get-big
+    .character-overview
       display block
-      max-height 95px
-      overflow-y hidden
-      transition all .5s
-      &.show-all
-        max-height 285px
-    .character
-      margin 10px 0
-      &.active
-        border 2px solid clr-white
-  .mobile-control
-    align-items flex-end
-    border-top 1px solid clr-action
-    color clr-white
-    display flex
-    font-size .8em
-    justify-content center
+      margin-top 10px
+      .characters
+        display block
+        max-height 95px
+        overflow-y hidden
+        transition all .5s
+        &.show-all
+          max-height 285px
+      .character
+        margin 10px 0
+        &.active
+          border 2px solid clr-white
+    .mobile-control
+      align-items flex-end
+      border-top 1px solid clr-action
+      color clr-white
+      display flex
+      font-size .8em
+      justify-content center

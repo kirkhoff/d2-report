@@ -1,7 +1,23 @@
-<header class="page-header">
+<header class="page-header" *ngIf="memberships">
   <div class="container">
     <h2>Get Big Quick</h2>
-    <a mat-flat-button href="https://www.bungie.net/en/OAuth/Authorize?client_id=1853&response_type=code" color="accent">Sign In</a>
+    <ng-container *ngIf="memberships.length > 1; else oneMembership">
+      <mat-form-field class="membership-select-field" color="accent">
+        <mat-icon class="membership-icon" matPrefix [svgIcon]="membershipCtrl.value.membershipIcon"></mat-icon>
+        <mat-select [formControl]="membershipCtrl" (selectionChange)="changeMembership($event)">
+          <mat-option *ngFor="let m of memberships" [value]="m" class="membership">
+            <mat-icon class="membership-icon" [svgIcon]="m.membershipIcon"></mat-icon>
+            <span class="display-name">{{m.displayName}}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+    <ng-template #oneMembership>
+      <div class="membership">
+        <mat-icon class="membership-icon" [svgIcon]="memberships[0].membershipIcon"></mat-icon>
+        <span class="display-name">{{memberships[0].displayName}}</span>
+      </div>
+    </ng-template>
   </div>
 </header>
 

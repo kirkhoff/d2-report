@@ -57,7 +57,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "d2-report:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy.conf.json",
+            "ssl": true,
+            "sslCert": "ssl/server.crt",
+            "sslKey": "ssl/server.key"
           },
           "configurations": {
             "production": {
