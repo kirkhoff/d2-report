@@ -17,16 +17,18 @@
 
         <button class="login-btn" *ngIf="!auth.isAuthenticated" mat-flat-button color="accent" (click)="logIn()">Log In</button>
 
-        <ng-container *ngIf="memberships?.length > 1; else oneMembership">
-          <mat-form-field class="membership-select-field" color="accent">
-            <mat-icon class="membership-icon" matPrefix [svgIcon]="membershipCtrl.value.membershipIcon"></mat-icon>
-            <mat-select [formControl]="membershipCtrl" (selectionChange)="changeMembership($event)">
-              <mat-option *ngFor="let m of memberships" [value]="m" class="membership">
-                <mat-icon class="membership-icon" [svgIcon]="m.membershipIcon"></mat-icon>
-                <span class="display-name">{{m.displayName}}</span>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+        <ng-container *ngIf="auth.isAuthenticated">
+          <ng-container *ngIf="memberships?.length > 1; else oneMembership">
+            <mat-form-field class="membership-select-field" color="accent">
+              <mat-icon class="membership-icon" matPrefix [svgIcon]="membershipCtrl.value.membershipIcon"></mat-icon>
+              <mat-select [formControl]="membershipCtrl" (selectionChange)="changeMembership($event)">
+                <mat-option *ngFor="let m of memberships" [value]="m" class="membership">
+                  <mat-icon class="membership-icon" [svgIcon]="m.membershipIcon"></mat-icon>
+                  <span class="display-name">{{m.displayName}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
         </ng-container>
 
         <ng-template #oneMembership>
