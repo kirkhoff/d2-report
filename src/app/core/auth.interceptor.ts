@@ -16,8 +16,13 @@ export class AuthInterceptor implements HttpInterceptor {
     if (request.url.indexOf('www.bungie.net') === -1) {
       return next.handle(request);
     }
+    const auth = this.authHeader;
+
     request = request.clone({
-      headers: this.getHeaders(request)
+      setHeaders: {
+        'X-API-Key': apiKey,
+        ...(auth && { 'Authorization': auth })
+      }
     });
     return next.handle(request).pipe(
       filter(event => event instanceof HttpResponse && event.url.indexOf('https://www.bungie.net') > -1),
@@ -31,21 +36,10 @@ export class AuthInterceptor implements HttpInterceptor {
     );
   }
 
-  private getHeaders(request: HttpRequest<any>): HttpHeaders {
-    const maybeAuth = this.authHeader;
-    const headers = request.headers.set('X-API-Key', apiKey);
-    if (maybeAuth) {
-      headers.set('Authorization', maybeAuth);
-    }
-    return headers;
-  }
-
   private get authHeader(): string {
     const authStorageValue = localStorage.getItem('auth');
-    if (authStorageValue) {
-      const auth: TokenResponse = JSON.parse(authStorageValue);
-      return `${auth.token_type} ${auth.access_token}`;
-    }
-    return null;
+    const ttlAuth = authStorageValue ? JSON.parse(authStorageValue) : null;
+    const auth = ttlAuth ? ttlAuth.value : null;
+    return auth ? `${auth.token_type} ${auth.access_token}` : null;
   }
 }

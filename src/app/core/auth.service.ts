@@ -47,12 +47,13 @@ export class AuthService {
     return auth ? auth.membership_id : null;
   }
 
-  private get auth(): TokenResponse {
+  get auth(): TokenResponse {
     const authStorageValue = localStorage.getItem('auth');
     const ttlAuth: TtlAuthStorage = authStorageValue ? JSON.parse(authStorageValue) : null;
     const now = Date.now();
-    const expiresAt = (ttlAuth  && ttlAuth.value && ttlAuth.value.expires_in) ? (now + ttlAuth.value.expires_in) : 0;
-    const expired = (ttlAuth && ttlAuth.timestamp) && (expiresAt < ttlAuth.timestamp);
+    const expiresIn = (ttlAuth  && ttlAuth.value && ttlAuth.value.expires_in) ? ttlAuth.value.expires_in * 1000 : 0; // ms
+    const expiresAt = (ttlAuth && ttlAuth.timestamp) ? (ttlAuth.timestamp + expiresIn) : 0;
+    const expired = expiresAt < now;
 
     if (expired) {
       localStorage.removeItem('auth');
@@ -61,7 +62,7 @@ export class AuthService {
     return ttlAuth && !expired ? ttlAuth.value : null;
   }
 
-  private set auth(value: TokenResponse) {
+  set auth(value: TokenResponse) {
     const ttlAuth: TtlAuthStorage = {
       value,
       timestamp: Date.now()

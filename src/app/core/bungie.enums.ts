@@ -160,3 +160,64 @@ export enum DestinyDefinition {
 export enum ProgressionHash {
   GloryRank = 2679551909
 }
+
+export enum ComponentPrivacySetting {
+  None = 0,
+  Public = 1,
+  PRivate = 2
+}
+
+export enum BucketScope {
+  Character = 0,
+  Account = 1
+}
+
+export enum BucketCategory {
+  Invisible = 0,
+  Item = 1,
+  Currency = 2,
+  Equippable = 3,
+  Ignored = 4
+}
+
+export enum ItemLocation {
+  Unknown = 0,
+  Inventory = 1,
+  Vault = 2,
+  Vendor = 3,
+  Postmaster = 4
+}
+
+export enum DamageType {
+  None = 0,
+  Kinetic = 1,
+  Arc = 2,
+  Thermal = 3,
+  Void = 4,
+  Raid = 5
+}
+
+export enum DestinyItemSubType {
+  None = 0,
+  AutoRifle = 6,
+  Shotgun = 7,
+  Machinegun = 8,
+  HandCannon = 9,
+  RocketLauncher = 10,
+  FusionRifle = 11,
+  SniperRifle = 12,
+  PulseRifle = 13,
+  ScoutRifle = 14,
+  Sidearm = 17,
+  Sword = 18,
+  FusionRifleLine = 22,
+  GrenadeLauncher = 23,
+  SubmachineGun = 24,
+  TraceRifle = 25,
+  HelmetArmor = 26,
+  GauntletsArmor = 27,
+  ChestArmor = 28,
+  LegArmor = 29,
+  ClassArmor = 30,
+  Bow = 31
+}

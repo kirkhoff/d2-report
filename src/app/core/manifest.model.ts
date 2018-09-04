@@ -1,4 +1,4 @@
-import {DestinyClass, DestinyGender, DestinyRace} from './bungie.enums';
+import {BucketCategory, BucketScope, DestinyClass, DestinyGender, DestinyRace, ItemLocation} from './bungie.enums';
 
 export interface DestinyDefinition<T> {
   [hash: number]: T;
@@ -21,6 +21,7 @@ export interface RawBungieManifest {
   DestinyGenderDefinition: string;
   DestinyClassDefinition: string;
   DestinyInventoryItemDefinition: string;
+  DestinyInventoryBucketDefinition: string;
 }
 
 export interface DestinyRaceDefinition {
@@ -62,7 +63,22 @@ export interface DestinyInventoryItemDefinition {
   backgroundColor: DestinyColor;
   screenshot: string;
   itemDisplayName: string;
+  classType: DestinyClass;
   // TODO fill this out (there's a lot)
+}
+
+export interface DestinyInventoryBucketDefinition {
+  displayProperties: DestinyDisplayPropertiesDefinition;
+  scope: BucketScope;
+  category: BucketCategory;
+  bucketOrder: number;
+  itemCount: number;
+  location: ItemLocation;
+  hasTransferDestination: boolean;
+  fifo: boolean;
+  hash: number;
+  index: number;
+  redacted: boolean;
 }
 
 export interface DestinyColor {
