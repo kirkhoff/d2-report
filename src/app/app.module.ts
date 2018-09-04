@@ -66,6 +66,17 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  imports: [
+    BrowserAnimationsModule,
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CoreModule,
+    SharedModule,
+    MaterialModule,
+    MomentModule,
+    RouterModule.forRoot(routes)
+  ],
   declarations: [
     AppComponent,
     CharacterComponent,
@@ -81,17 +92,6 @@ const routes: Routes = [
   ],
   entryComponents: [
     OauthDialogComponent
-  ],
-  imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CoreModule,
-    SharedModule,
-    MaterialModule,
-    MomentModule,
-    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

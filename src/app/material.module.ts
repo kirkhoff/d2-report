@@ -2,13 +2,14 @@ import {NgModule} from '@angular/core';
 import {
   MatAutocompleteModule,
   MatButtonModule,
-  MatCardModule, MatDialogModule,
+  MatCardModule,
+  MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatSelectModule, MatSidenavModule,
-  MatTableModule
+  MatInputModule,
+  MatSelectModule,
+  MatSidenavModule,
 } from '@angular/material';
-import {CdkTableModule} from '@angular/cdk/table';
 
 const matModules = [
   MatButtonModule,
@@ -19,14 +20,11 @@ const matModules = [
   MatInputModule,
   MatCardModule,
   MatSelectModule,
-  MatTableModule,
   MatSidenavModule
 ];
 
 @NgModule({
   imports: matModules,
-  exports: matModules.concat([
-    CdkTableModule
-  ])
+  exports: matModules
 })
 export class MaterialModule {}
