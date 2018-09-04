@@ -5,7 +5,7 @@ import {debounceTime, switchMap} from 'rxjs/operators';
 
 import {
   AccountStats,
-  DestinyCharacterResponse,
+  DestinyCharacterResponse, DestinyItemResponse,
   DestinyProfileResponse,
   GeneralUser,
   PostGameCarnageReportData,
@@ -22,6 +22,7 @@ import {
   FireteamSlotSearch,
   MembershipType
 } from './bungie.enums';
+import {DestinyInventoryItemDefinition} from './manifest.model';
 
 export const bungie = 'https://www.bungie.net';
 export const clientId = '24532'; // Local
@@ -103,9 +104,9 @@ export class BungieService {
     return this.http.get<any>(url);
   }
 
-  getEntityDefinition(entityType: string, hashIdentifier: string): Observable<any> {
+  getDestinyEntityDefinition(entityType: string, hashIdentifier: number): Observable<DestinyInventoryItemDefinition> {
     const url = `${bungie}/Platform/Destiny2/Manifest/${entityType}/${hashIdentifier}/`;
-    return this.http.get<any>(url);
+    return this.http.get<DestinyInventoryItemDefinition>(url);
   }
 
   searchPlayer(player: string, membershipType = this.membershipType): Observable<UserInfoCard[]> {
@@ -128,9 +129,14 @@ export class BungieService {
     return this.http.get<DestinyProfileResponse>(url);
   }
 
-  getCharacter(destinyMembershipId: string, characterId: string, options?: any): Observable<DestinyCharacterResponse> {
+  getCharacter(destinyMembershipId: number | string, characterId: string, options?: any): Observable<DestinyCharacterResponse> {
     const url = `${bungie}/Platform/Destiny2/${this._membershipType}/Profile/${destinyMembershipId}/Character/${characterId}/${this.getQueryString(options)}`;
     return this.http.get<DestinyCharacterResponse>(url);
+  }
+
+  getItem(itemInstanceId: number | string, destinyMembershipId: number | string, options?: any): Observable<DestinyItemResponse> {
+    const url = `${bungie}/Platform/Destiny2/${this.membershipType}/Profile/${destinyMembershipId}/Item/${itemInstanceId}/${this.getQueryString(options)}`;
+    return this.http.get<DestinyItemResponse>(url);
   }
 
   getPostGameCarnageReport(activityId: string): Observable<PostGameCarnageReportData> {

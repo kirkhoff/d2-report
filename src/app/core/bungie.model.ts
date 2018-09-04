@@ -1,4 +1,4 @@
-import {DestinyClass, FireteamActivityType, FireteamPlatform, MembershipType} from './bungie.enums';
+import {ComponentPrivacySetting, DestinyClass, FireteamActivityType, FireteamPlatform, ItemLocation, MembershipType} from './bungie.enums';
 
 export interface BungieResponse<T> {
   ErrorCode: number;
@@ -55,14 +55,38 @@ export interface UserInfoCard {
   displayName: string;
 }
 
-
 export interface DestinyProfileResponse {
   characters: {
     data: {
       [character: number]: DestinyCharacterComponent;
     }
   };
-  itemComponents: any;
+  itemComponents: {
+    instances: {
+      data: {
+        [itemInstanceId: number]: DestinyItemInstanceComponent;
+      }
+    }
+  };
+  profileInventory: {
+    data: {
+      items: DestinyItemComponent[];
+    }
+  };
+  characterEquipment: {
+    data: {
+      [characterId: number]: {
+        items: DestinyItemComponent[];
+      };
+    };
+  };
+  characterInventories: {
+    data: {
+      [characterId: number]: {
+        items: DestinyItemComponent[];
+      };
+    };
+  };
   profile: {
     data: {
       characterIds: string[];
@@ -72,6 +96,46 @@ export interface DestinyProfileResponse {
     };
   };
   characterProgressions: any; // TODO
+}
+
+export interface DestinyItemResponse {
+  characterId: number;
+  item: any;
+  instance: {
+    data: DestinyItemInstanceComponent;
+    privacy: ComponentPrivacySetting;
+  };
+  objectives: any;
+  perks: any;
+  renderData: any;
+  stats: any;
+  talentGrid: any;
+  sockets: any;
+}
+
+export interface DestinyItemComponent {
+  itemHash: number;
+  itemInstanceId: number;
+  quantity: number;
+  bindStatus: any;
+  location: ItemLocation;
+  bucketHash: number;
+  transferStatus: any;
+  lockable: boolean;
+  state: any;
+}
+
+export interface DestinyItemInstanceComponent {
+  damageType: any;
+  damageTypeHash: number;
+  primaryStat: any;
+  itemLevel: number;
+  quality: number;
+  isEquipped: boolean;
+  canEquip: boolean;
+  equipRequiredLevel: number;
+  unlockHashesRequiredToEquip: number[];
+  cannotEquipReason: any;
 }
 
 export interface AccountStats {
@@ -139,16 +203,33 @@ export interface DestinyProgression {
 }
 
 export interface DestinyCharacterResponse {
-  inventory: {};
+  inventory: {
+    data: {
+      items: DestinyItemComponent[];
+    };
+    privacy: number;
+  };
   character: {
     data: DestinyCharacterComponent
+    privacy: number;
   };
   progressions: {};
   renderData: {};
   activities: {};
-  equipment: {};
+  equipment: {
+    data: {
+      items: DestinyItemComponent[];
+    };
+    privacy: number;
+  };
   kiosks: {};
-  itemComponents: {};
+  itemComponents: {
+    instances: {
+      data: {
+        [itemInstanceId: number]: DestinyItemInstanceComponent;
+      }
+    }
+  };
 }
 
 export interface HistoricalStatsValuePair {

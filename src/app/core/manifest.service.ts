@@ -5,7 +5,7 @@ import {
   BungieManifestResponse,
   DestinyClassDefinition,
   DestinyDefinition,
-  DestinyGenderDefinition, DestinyInventoryItemDefinition,
+  DestinyGenderDefinition, DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition,
   DestinyRaceDefinition,
   RawBungieManifest
 } from './manifest.model';
@@ -46,6 +46,12 @@ export class ManifestService {
   getInventoryItem(): Observable<DestinyDefinition<DestinyInventoryItemDefinition>> {
     return this.getManifest().pipe(
       switchMap(manifest => this.http.get<DestinyDefinition<DestinyInventoryItemDefinition>>(manifest.DestinyInventoryItemDefinition))
+    );
+  }
+
+  getInventoryBucket(): Observable<DestinyDefinition<DestinyInventoryBucketDefinition>> {
+    return this.getManifest().pipe(
+      switchMap(manifest => this.http.get<DestinyDefinition<DestinyInventoryBucketDefinition>>(manifest.DestinyInventoryBucketDefinition))
     );
   }
 }
