@@ -44,8 +44,8 @@ export class AppComponent implements OnInit {
   }
 
   setMembership(membership: MembershipDisplayName): void {
-    this.bungie.membershipId$.next(membership.membershipId);
     this.bungie.membershipType = membership.membershipType;
+    this.bungie.membershipId$.next(membership.membershipId);
   }
 
   /**

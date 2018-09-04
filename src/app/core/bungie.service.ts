@@ -31,14 +31,12 @@ export const bungie = 'https://www.bungie.net';
   providedIn: CoreModule
 })
 export class BungieService {
-  membershipId: string;
   membershipId$ = new ReplaySubject<string>();
   private _membershipType: MembershipType;
 
   constructor(private http: HttpClient) {
     const membershipTypeStorageValue = localStorage.getItem('membershipType');
     this._membershipType = membershipTypeStorageValue ? parseInt(membershipTypeStorageValue, 10) : MembershipType.All;
-    this.membershipId$.subscribe(id => this.membershipId = id);
   }
 
   private getQueryString(options: {}): string {

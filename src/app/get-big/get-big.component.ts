@@ -5,7 +5,7 @@ import {DestinyComponentType} from '../core/bungie.enums';
 import {DestinyCharacterComponent, DestinyItemComponent, DestinyItemInstanceComponent, DestinyProfileResponse} from '../core/bungie.model';
 import {MatDialog, MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 import {ManifestService} from '../core/manifest.service';
 import {DestinyDefinition, DestinyInventoryBucketDefinition} from '../core/manifest.model';
 import {AuthService} from '../core/auth.service';
@@ -81,10 +81,8 @@ export class GetBigComponent implements OnInit {
       setTimeout(() => this.dialog.open(OauthDialogComponent));
     }
 
-    const membershipId$ = this.bungie.membershipId ?
-      new BehaviorSubject<string>(this.bungie.membershipId) :
-      this.bungie.membershipId$;
-
+    const membershipId$ = new ReplaySubject<string>();
+    this.bungie.membershipId$.subscribe(membershipId$);
     membershipId$
       .pipe(
         tap(membershipId => this.membershipId = membershipId),
@@ -101,9 +99,7 @@ export class GetBigComponent implements OnInit {
               DestinyComponentType.ItemStats,
             ]
           })
-        )
-      )
-      .pipe(
+        ),
         tap(rsp => this.profile = rsp),
         map(rsp => rsp.profile.data.characterIds.map(id => rsp.characters.data[id])),
         map(characters => characters.sort((a, b) =>
