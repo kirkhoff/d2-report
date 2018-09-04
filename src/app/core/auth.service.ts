@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {CoreModule} from './core.module';
-import {bungie, clientId} from './bungie.service';
+import {bungie} from './bungie.service';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {TokenResponse} from './bungie.model';
 import {HttpClient} from '@angular/common/http';
 import {MatDialog} from '@angular/material';
+import {environment} from '../../environments/environment';
 
 interface TtlAuthStorage {
   value: TokenResponse;
@@ -16,7 +17,7 @@ interface TtlAuthStorage {
   providedIn: CoreModule
 })
 export class AuthService {
-  readonly tokenRequestUrl = `${bungie}/en/OAuth/Authorize?client_id=${clientId}&response_type=code`;
+  readonly tokenRequestUrl = `${bungie}/en/OAuth/Authorize?client_id=${environment.clientId}&response_type=code`;
 
   constructor(private dialog: MatDialog, private http: HttpClient) {}
 
@@ -28,7 +29,7 @@ export class AuthService {
 
   authenticate(authCode: string): Observable<TokenResponse> {
     const url = `${bungie}/Platform/App/OAuth/Token/`;
-    const body = `client_id=${clientId}&grant_type=authorization_code&code=${authCode}`;
+    const body = `client_id=${environment.clientId}&grant_type=authorization_code&code=${authCode}`;
     return this.http.post<TokenResponse>(url, body, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
   }
 
@@ -36,6 +37,11 @@ export class AuthService {
     this.authenticate(code).pipe(
       tap(auth => this.auth = auth)
     ).subscribe(() => setTimeout(() => location.replace(this.authRedirect)));
+  }
+
+  logOut(): void {
+    localStorage.clear();
+    location.reload();
   }
 
   get isAuthenticated() {

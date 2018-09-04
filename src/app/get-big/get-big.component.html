@@ -1,56 +1,90 @@
-<header class="page-header" *ngIf="memberships">
-  <div class="container">
-    <h2>Get Big Quick</h2>
-    <ng-container *ngIf="memberships.length > 1; else oneMembership">
-      <mat-form-field class="membership-select-field" color="accent">
-        <mat-icon class="membership-icon" matPrefix [svgIcon]="membershipCtrl.value.membershipIcon"></mat-icon>
-        <mat-select [formControl]="membershipCtrl" (selectionChange)="changeMembership($event)">
-          <mat-option *ngFor="let m of memberships" [value]="m" class="membership">
-            <mat-icon class="membership-icon" [svgIcon]="m.membershipIcon"></mat-icon>
-            <span class="display-name">{{m.displayName}}</span>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </ng-container>
-    <ng-template #oneMembership>
-      <div class="membership">
-        <mat-icon class="membership-icon" [svgIcon]="memberships[0].membershipIcon"></mat-icon>
-        <span class="display-name">{{memberships[0].displayName}}</span>
-      </div>
-    </ng-template>
-  </div>
-</header>
-
-<section class="container character-overview">
+<section class="container character-overview" *ngIf="characters; else loading">
   <div class="characters" [class.show-all]="showAllCharacters">
     <dr-character class="character"
                   *ngFor="let c of characters; let i = index"
                   [data]="c"
-                  [class.active]="i === 0"></dr-character>
+                  [class.active]="i === 0"
+                  (click)="loadCharacter(c.characterId)"></dr-character>
   </div>
   <div class="mobile-control">
     <button type="button"
             mat-flat-button
             color="primary"
             (click)="showAllCharacters = !showAllCharacters">
-      {{showAllCharacters ? 'Show Active Character' : 'Show All'}}
+      {{showAllCharacters ? 'Show Current' : 'Show All'}}
     </button>
+  </div>
+
+  <h3 class="section-header">Highest Light Possible</h3>
+  <p>
+    The equipment below accounts for the highest light possible. The slots
+    highlighted are lower in light than your character's highest possible
+    light level. Use tokens or complete activities to upgrade them.
+  </p>
+
+  <div class="equipment" *ngIf="mostPowerfulEquipment && highestPossibleLight">
+    <div class="weapons">
+      <div class="highest-possible-light">
+        <div class="values">
+          <span class="current">{{highestPossibleLight}}</span>
+          <span class="next" *ngIf="highestPossibleLight < 600">{{highestPossibleLight + 1}}</span>
+        </div>
+        <div class="level-progress-bar">
+          <div class="progress" [style.width]="lightLevelProgress"></div>
+        </div>
+      </div>
+      <dr-equipment [item]="mostPowerfulEquipment.kinetic.item"
+                    [instance]="mostPowerfulEquipment.kinetic.instance"
+                    [characterLight]="highestPossibleLight"></dr-equipment>
+      <dr-equipment [item]="mostPowerfulEquipment.energy?.item"
+                    [instance]="mostPowerfulEquipment.energy?.instance"
+                    [characterLight]="highestPossibleLight"></dr-equipment>
+      <dr-equipment [item]="mostPowerfulEquipment.power?.item"
+                    [instance]="mostPowerfulEquipment.power?.instance"
+                    [characterLight]="highestPossibleLight"></dr-equipment>
+    </div>
+    <div class="armor">
+      <dr-equipment [item]="mostPowerfulEquipment.helmet?.item"
+                    [instance]="mostPowerfulEquipment.helmet?.instance"
+                    [characterLight]="highestPossibleLight"
+                    class="flip"></dr-equipment>
+      <dr-equipment [item]="mostPowerfulEquipment.arms?.item"
+                    [instance]="mostPowerfulEquipment.arms?.instance"
+                    [characterLight]="highestPossibleLight"
+                    class="flip"></dr-equipment>
+      <dr-equipment [item]="mostPowerfulEquipment.chest?.item"
+                    [instance]="mostPowerfulEquipment.chest?.instance"
+                    [characterLight]="highestPossibleLight"
+                    class="flip"></dr-equipment>
+      <dr-equipment [item]="mostPowerfulEquipment.legs?.item"
+                    [instance]="mostPowerfulEquipment.legs?.instance"
+                    [characterLight]="highestPossibleLight"
+                    class="flip"></dr-equipment>
+      <dr-equipment [item]="mostPowerfulEquipment.classItem?.item"
+                    [instance]="mostPowerfulEquipment.classItem?.instance"
+                    [characterLight]="highestPossibleLight"
+                    class="flip"></dr-equipment>
+    </div>
   </div>
 </section>
 
-<section class="container">
-  <h3 class="section-header">Up Next</h3>
-  <p>An efficient path to higher power.</p>
+<!--<section class="container">-->
+  <!--<h3 class="section-header">Up Next</h3>-->
+  <!--<p>An efficient path to higher power.</p>-->
 
-  <!-- Get to 50 -->
-  <h4><mat-icon>gps_fixed</mat-icon>Get to 50</h4>
-  <p class="reason">
-    Before you hit 50, you'll want to avoid doing activities that can grant
-    powerful gear, unless you're in danger of those activities resetting.
-  </p>
-  <ul>
-    <li>Public Events</li>
-    <li>Story Missions</li>
-    <li>Adventures</li>
-  </ul>
-</section>
+  <!--&lt;!&ndash; Get to 50 &ndash;&gt;-->
+  <!--<h4><mat-icon>gps_fixed</mat-icon>Get to 50</h4>-->
+  <!--<p class="reason">-->
+    <!--Before you hit 50, you'll want to avoid doing activities that can grant-->
+    <!--powerful gear, unless you're in danger of those activities resetting.-->
+  <!--</p>-->
+  <!--<ul>-->
+    <!--<li>Public Events</li>-->
+    <!--<li>Story Missions</li>-->
+    <!--<li>Adventures</li>-->
+  <!--</ul>-->
+<!--</section>-->
+
+<ng-template #loading>
+  <div class="loading"></div>
+</ng-template>

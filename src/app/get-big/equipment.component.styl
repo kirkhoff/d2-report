@@ -1,0 +1,29 @@
+@require 'vars.styl'
+
+:host
+  align-items center
+  display flex
+  padding 6px
+  &.flip
+    flex-direction row-reverse
+  &.warn
+    background rgba(clr-white, 20%)
+    .light-level
+      color clr-secondary
+
+.icon-box
+  border 1px solid clr-white
+  box-sizing border-box
+  height 60px
+  width 60px
+  img
+    height 100%
+
+.light-level
+  align-self flex-end
+  color clr-white
+  font-size 2em
+  font-weight 600
+  line-height 1
+  margin 0 10px
+  text-shadow common-text-shadow

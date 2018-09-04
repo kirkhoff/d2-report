@@ -5,7 +5,7 @@ import {AuthService} from '../core/auth.service';
 
 @Component({
   selector: 'dr-oauth',
-  template: '<div class="container">Authenticating...please wait.</div>'
+  template: '<div class="container"><div class="loading"></div></div>'
 })
 export class OauthComponent implements OnInit {
   constructor(private auth: AuthService, private bungie: BungieService, private route: ActivatedRoute) {}

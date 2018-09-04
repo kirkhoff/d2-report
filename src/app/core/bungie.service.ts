@@ -1,11 +1,12 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 
 import {
   AccountStats,
-  DestinyCharacterResponse, DestinyItemResponse,
+  DestinyCharacterResponse,
+  DestinyItemResponse,
   DestinyProfileResponse,
   GeneralUser,
   PostGameCarnageReportData,
@@ -25,18 +26,19 @@ import {
 import {DestinyInventoryItemDefinition} from './manifest.model';
 
 export const bungie = 'https://www.bungie.net';
-export const clientId = '24532'; // Local
-// export const clientId = '1853'; // Prod
 
 @Injectable({
   providedIn: CoreModule
 })
 export class BungieService {
+  membershipId: string;
+  membershipId$ = new ReplaySubject<string>();
   private _membershipType: MembershipType;
 
   constructor(private http: HttpClient) {
     const membershipTypeStorageValue = localStorage.getItem('membershipType');
     this._membershipType = membershipTypeStorageValue ? parseInt(membershipTypeStorageValue, 10) : MembershipType.All;
+    this.membershipId$.subscribe(id => this.membershipId = id);
   }
 
   private getQueryString(options: {}): string {

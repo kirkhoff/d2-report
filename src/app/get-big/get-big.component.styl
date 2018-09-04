@@ -3,18 +3,45 @@
 dr-get-big
   display block
 
-  .page-header
-    .membership
-      align-items center
-      color clr-white
+  .equipment
+    align-items flex-start
+    background rgba(clr-black, .3)
+    box-sizing border-box
+    display flex
+    justify-content space-between
+    margin-top 30px
+    padding 0 10px
+    .highest-possible-light
       display flex
-      font-size 1.2em
-    .display-name
-      margin-left .5em
-    .membership-select-field .mat-form-field-flex
-      align-items flex-end
-    .membership-icon
-      margin-right .5em
+      flex-direction column
+      height 72px
+      margin 10px 0
+      .values
+        align-items flex-end
+        display flex
+        justify-content space-between
+        line-height 1
+        .current
+          color clr-white
+          font-size 2.5em
+          font-weight 600
+          text-shadow common-text-shadow
+        .next
+          color rgba(clr-white, 50%)
+          font-size 1em
+          font-weight 500
+      .level-progress-bar
+        height 4px
+
+    .weapons,
+    .armor
+      flex 1
+    .weapons
+      margin-right 10px
+    .armor
+      margin-left 10px
+    dr-equipment
+      margin 10px 0
 
   section
     color clr-white

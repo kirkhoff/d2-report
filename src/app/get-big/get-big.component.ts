@@ -1,31 +1,15 @@
-import {ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {BungieService} from '../core/bungie.service';
-import {ActivatedRoute} from '@angular/router';
-import {map, mergeMap, switchMap, switchMapTo, tap} from 'rxjs/operators';
-import {DestinyComponentType, MembershipType} from '../core/bungie.enums';
-import {HttpClient} from '@angular/common/http';
-import {
-  DestinyCharacterComponent,
-  DestinyItemComponent,
-  DestinyItemInstanceComponent,
-  DestinyProfileResponse,
-  GeneralUser
-} from '../core/bungie.model';
-import {AuthService} from '../core/auth.service';
-import {MatDialog, MatIconRegistry, MatSelectChange} from '@angular/material';
-import {OauthDialogComponent} from '../oauth/oauth-dialog.component';
-import {FormControl} from '@angular/forms';
+import {map, switchMap, switchMapTo, tap} from 'rxjs/operators';
+import {DestinyComponentType} from '../core/bungie.enums';
+import {DestinyCharacterComponent, DestinyItemComponent, DestinyItemInstanceComponent, DestinyProfileResponse} from '../core/bungie.model';
+import {MatDialog, MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
-import {forkJoin, Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {ManifestService} from '../core/manifest.service';
 import {DestinyDefinition, DestinyInventoryBucketDefinition} from '../core/manifest.model';
-
-interface MembershipDisplayName {
-  displayName: string;
-  membershipId?: string;
-  membershipType: MembershipType;
-  membershipIcon: string;
-}
+import {AuthService} from '../core/auth.service';
+import {OauthDialogComponent} from '../oauth/oauth-dialog.component';
 
 interface Equipment {
   item: DestinyItemComponent;
@@ -70,23 +54,19 @@ export class GetBigComponent implements OnInit {
   characters: DestinyCharacterComponent[];
   profile: DestinyProfileResponse;
   showAllCharacters = false;
-  memberships: MembershipDisplayName[];
-  membershipCtrl = new FormControl();
   mostPowerfulEquipment: MostPowerfulEquipment = {};
   highestPossibleLight: number;
+  lightLevelProgress: string;
+  membershipId: string;
 
-  private membershipId: string;
   private equipment: ClassEquipment;
   private buckets: DestinyDefinition<DestinyInventoryBucketDefinition>;
 
   constructor(
-    public auth: AuthService,
+    private auth: AuthService,
     private bungie: BungieService,
-    private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
-    private http: HttpClient,
     private manifest: ManifestService,
-    private route: ActivatedRoute,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
@@ -99,44 +79,46 @@ export class GetBigComponent implements OnInit {
   ngOnInit() {
     if (!this.auth.isAuthenticated) {
       setTimeout(() => this.dialog.open(OauthDialogComponent));
-    } else {
-      this.loadMemberships();
     }
-  }
 
-  changeMembership(change: MatSelectChange): void {
-    this.setMembership(change.value);
-  }
+    const membershipId$ = this.bungie.membershipId ?
+      new BehaviorSubject<string>(this.bungie.membershipId) :
+      this.bungie.membershipId$;
 
-  setMembership(membership: MembershipDisplayName): void {
-    this.membershipId = membership.membershipId;
-    this.bungie.membershipType = membership.membershipType;
-    this.bungie.searchPlayer(membership.displayName).pipe(
-      map(players => players[0]),
-      switchMap(player => this.bungie.getProfile(player.membershipId, {
-        components: [
-          DestinyComponentType.Profiles,
-          DestinyComponentType.Characters,
-          DestinyComponentType.CharacterInventories,
-          DestinyComponentType.CharacterEquipment,
-          DestinyComponentType.CharacterActivities,
-          DestinyComponentType.ProfileInventories,
-          DestinyComponentType.ProfileCurrencies,
-          DestinyComponentType.ItemInstances,
-          DestinyComponentType.ItemStats,
-        ]
-      })),
-      tap(rsp => this.profile = rsp),
-      map(rsp => rsp.profile.data.characterIds.map(id => rsp.characters.data[id])),
-      map(characters => characters.sort((a, b) =>
-        a.dateLastPlayed === b.dateLastPlayed ? 0 :
-          a.dateLastPlayed > b.dateLastPlayed ? -1 : 1)),
-      tap(characters => this.characters = characters),
-      tap(() => this.loadCharacter(this.characters[0].characterId))
-    ).subscribe();
+    membershipId$
+      .pipe(
+        tap(membershipId => this.membershipId = membershipId),
+        switchMap(membershipId => this.bungie.getProfile(membershipId, {
+            components: [
+              DestinyComponentType.Profiles,
+              DestinyComponentType.Characters,
+              DestinyComponentType.CharacterInventories,
+              DestinyComponentType.CharacterEquipment,
+              DestinyComponentType.CharacterActivities,
+              DestinyComponentType.ProfileInventories,
+              DestinyComponentType.ProfileCurrencies,
+              DestinyComponentType.ItemInstances,
+              DestinyComponentType.ItemStats,
+            ]
+          })
+        )
+      )
+      .pipe(
+        tap(rsp => this.profile = rsp),
+        map(rsp => rsp.profile.data.characterIds.map(id => rsp.characters.data[id])),
+        map(characters => characters.sort((a, b) =>
+          a.dateLastPlayed === b.dateLastPlayed ? 0 :
+            a.dateLastPlayed > b.dateLastPlayed ? -1 : 1)),
+        tap(characters => {
+          this.characters = characters;
+          this.loadCharacter(localStorage.getItem('characterId') || this.characters[0].characterId);
+        })
+      )
+      .subscribe();
   }
 
   loadCharacter(characterId: string): void {
+    this.sortCharacters(characterId);
     this.manifest.getInventoryBucket()
       .pipe(
         tap(rsp => this.buckets = rsp),
@@ -151,65 +133,27 @@ export class GetBigComponent implements OnInit {
         this.mostPowerfulEquipment.chest = this.getMostPowerfulItemForBucket(equipment, BucketType.Chest);
         this.mostPowerfulEquipment.legs = this.getMostPowerfulItemForBucket(equipment, BucketType.Legs);
         this.mostPowerfulEquipment.classItem = this.getMostPowerfulItemForBucket(equipment, BucketType.ClassItem);
-        this.highestPossibleLight = this.getHighestPossibleLight();
-        console.log('stuff: ', this.mostPowerfulEquipment, this.highestPossibleLight);
+        this.highestPossibleLight = Math.floor(this.getHighestPossibleLight());
+        this.lightLevelProgress = (this.getHighestPossibleLight() % 1) * 100 + '%';
       });
   }
 
   /**
-   * Get bungie.net user from token's membershipId (not the same as a Destiny membershipId)
+   * Places the targeted character as the first item in the characters array which will
+   * prioritize that character in the view. This method will also store the selected
+   * characterId in localStorage for persistence.
+   * @param characterId - target character that is being prioritized
    */
-  private loadMemberships(): void {
-    const membershipId = this.auth.membershipId;
-    this.manifest.getInventoryBucket().pipe(
-      tap(rsp => this.buckets = rsp),
-      switchMapTo(this.bungie.getBungieNetUserById(membershipId)),
-      mergeMap(user => this.getDestinyMemberships(user)),
-    ).subscribe(result => {
-      this.memberships = result;
-      this.membershipCtrl.setValue(this.memberships[0]);
-      this.setMembership(this.memberships[0]);
-    });
-  }
-
-  /**
-   * Get potential Destiny memberships from a bungie.net GeneralUser
-   * @param user - GeneralUser from bungie.net
-   */
-  private getDestinyMemberships(user: GeneralUser): Observable<MembershipDisplayName[]> {
-    const memberships: MembershipDisplayName[] = [
-      {
-        displayName: user.psnDisplayName,
-        membershipType: MembershipType.PSN,
-        membershipIcon: 'psn'
-      },
-      {
-        displayName: user.xboxDisplayName,
-        membershipType: MembershipType.Xbox,
-        membershipIcon: 'xbox'
-      },
-      {
-        displayName: user.blizzardDisplayName,
-        membershipType: MembershipType.Blizzard,
-        membershipIcon: 'blizzard'
-      }
-    ].filter(m => !!m.displayName);
-
-    // This is hacky, but for some reason the filter operator stops the stream
-    const destinyMemberships = [];
-
-    return forkJoin(memberships
-      .map(m => this.bungie.searchPlayer(m.displayName, m.membershipType).pipe(
-        map(players => players[0]),
-        tap(({ membershipId }) => m.membershipId = membershipId),
-        switchMap(player => this.bungie.getProfile(player.membershipId, { components: [DestinyComponentType.Profiles] }, m.membershipType)),
-        tap(({ profile }) => {
-          if (profile) {
-            destinyMemberships.push(m);
-          }
-        })
-      ))
-    ).pipe(map(() => destinyMemberships));
+  private sortCharacters(characterId: string): void {
+    const character = this.characters.find(c => c.characterId === characterId);
+    const index = this.characters.indexOf(character);
+    if (index !== 0) {
+      const [prevCharacter] = this.characters;
+      this.characters[0] = character;
+      this.characters[index] = prevCharacter;
+    }
+    localStorage.setItem('characterId', characterId);
+    this.showAllCharacters = false;
   }
 
   private getEquipment(characterId: string): Observable<Equipment[]> {
@@ -248,7 +192,7 @@ export class GetBigComponent implements OnInit {
   private getHighestPossibleLight(): number {
     const total = Object.values(this.mostPowerfulEquipment)
       .map((e: Equipment) => e.instance.primaryStat.value)
-      .reduce((total, num) => total + num);
+      .reduce((x, y) => x + y);
     return total / Object.keys(this.mostPowerfulEquipment).length;
   }
 }

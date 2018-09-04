@@ -1,12 +1,10 @@
-import {HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {filter, map, share, tap} from 'rxjs/operators';
-import {BungieResponse, TokenResponse} from './bungie.model';
+import {BungieResponse} from './bungie.model';
 import {BungieErrorCode} from './bungie.enums';
-
-export const apiKey = '603cfd09f8774361a731d7a93da979df'; // local
-// export const apiKey = '00503d2de9d14b17b5baed537fe29ab4'; // prod
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -20,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     request = request.clone({
       setHeaders: {
-        'X-API-Key': apiKey,
+        'X-API-Key': environment.apiKey,
         ...(auth && { 'Authorization': auth })
       }
     });

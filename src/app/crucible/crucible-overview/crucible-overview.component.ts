@@ -4,7 +4,7 @@ import {BungieService} from '../../core/bungie.service';
 import {filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {DestinyCharacterComponent} from '../../core/bungie.model';
-import {DestinyActivityModeType, DestinyClass} from '../../core/bungie.enums';
+import {DestinyActivityModeType} from '../../core/bungie.enums';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -30,7 +30,7 @@ export class CrucibleOverviewComponent implements OnInit {
       tap(({ displayName }) => this.avgKdAcrossCharacters = this.crucible.getKD(displayName)),
       switchMap(({ displayName }) => this.crucible.getGuardians(displayName)),
       tap(guardian => this.guardians.push(guardian)),
-      mergeMap(guardian => this.bungie.getHistoricalStats(guardian.membership_id, guardian.characterId, {
+      mergeMap(guardian => this.bungie.getHistoricalStats(guardian.membershipId, guardian.characterId, {
         modes: [
           DestinyActivityModeType.Survival,
           DestinyActivityModeType.Countdown,

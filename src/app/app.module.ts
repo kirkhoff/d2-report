@@ -18,6 +18,7 @@ import {SearchComponent} from './search/search.component';
 import {CharacterComponent} from './character/character.component';
 import {OauthComponent} from './oauth/oauth.component';
 import {OauthDialogComponent} from './oauth/oauth-dialog.component';
+import {EquipmentComponent} from './get-big/equipment.component';
 
 const routes: Routes = [
   {
@@ -25,10 +26,10 @@ const routes: Routes = [
     component: OauthComponent
   },
   {
-    path: 'big',
+    path: 'progress',
     component: GetBigComponent,
     data: {
-      title: 'Get Big Quick'
+      title: 'My Progress'
     }
   },
   {
@@ -60,7 +61,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/big'
+    redirectTo: '/progress'
   }
 ];
 
@@ -71,6 +72,7 @@ const routes: Routes = [
     CompetitiveComponent,
     CrucibleComponent,
     CrucibleOverviewComponent,
+    EquipmentComponent,
     FireteamComponent,
     GetBigComponent,
     OauthComponent,

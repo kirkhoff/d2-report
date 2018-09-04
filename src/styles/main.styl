@@ -35,9 +35,10 @@ h1, h2, h3, h4, h5, h6
   margin-top 3em
 
 .shaxx-quote
-  color clr-tertiary
+  color clr-white
   font-size 1.2em
   margin-top 3em
+  opacity .75
   text-align center
 
 .section-header
@@ -84,6 +85,19 @@ h1, h2, h3, h4, h5, h6
   display flex
   justify-content flex-end
   margin-top 30px
+
+.level-progress-bar
+  background rgba(#fff, .4)
+  display flex
+  height 12px
+  width 100%
+  .progress
+    background #fff
+    border-radius 0 5px 5px 0
+    box-shadow 0 0 10px 0 clr-secondary
+    display flex
+    height 100%
+    transition all transition-time
 
 +mobile-only()
   .page-header

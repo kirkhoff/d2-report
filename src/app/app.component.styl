@@ -14,6 +14,8 @@ main
   flex-direction column
   overflow scroll
   padding-bottom 100px
+button
+  cursor pointer
 header
   background clr-grey
   height 60px
@@ -26,6 +28,7 @@ header
 .branding
   align-items center
   display flex
+  flex 1
   height 100%
   h1
     stat-font()
@@ -41,7 +44,10 @@ header
     margin-right 1em
 .desktop-nav,
 .mobile-nav
-  a
+  button
+    reset-button()
+  a,
+  button
     main-font()
     align-items center
     display flex
@@ -64,11 +70,30 @@ header
   background clr-grey
   min-width 150px
 
+.login-btn,
+.display-name
+  margin-right 20px
+.display-name,
+.membership-icon
+  opacity .5
+.membership
+  align-items center
+  color clr-white
+  display flex
+  font-size .8em
+.membership-select-field .mat-form-field-flex
+  align-items flex-end
+.membership-icon
+  height 1.5em
+  margin-right .5em
+  width 1.5em
+
 +not-phone()
   .desktop-nav
     display flex
     height 100%
-    a
+    a,
+    button
       height 100%
   .sidenav-toggle
     display none
@@ -77,7 +102,10 @@ header
   .desktop-nav
     display none
   .mobile-nav
-    a
+    button
+      reset-button()
+    a,
+    button
       outline 0
       padding 1em
   .sidenav-toggle
